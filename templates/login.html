@@ -1,0 +1,33 @@
+{% extends "templates/_base.htm" %}
+{% block bodycontent %}
+		
+		
+		
+		<!-- Main -->
+			<section class="wrapper style1">
+				<div class="container">
+					<div id="content">
+						<div class="4u center-block">
+						<!-- Content -->
+
+								<header>
+									<h2><center>Login</center></h2>
+								</header>
+								
+								<form id="loginForm" method="post" action="/login">
+									<input type="text" name="username" required="true" placeholder="Username" ></input>
+									<p></p>
+									<input type="password" name="password" required="true" placeholder="Password"></input>
+									<p></p>
+									<input type="submit" value="Login"></input>
+								
+				
+								</form
+								</div>
+					</div>
+					</div>
+			</section>			
+
+		
+
+	{% endblock %}

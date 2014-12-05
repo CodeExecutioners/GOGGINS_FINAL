@@ -1,0 +1,40 @@
+
+<form class="formLesson" name="addLesson" id="addLessonForm">
+		<fieldset>
+		<input  type="hidden" id="addlessonId" name="addlessonId" type="text" value="None" required/>
+			 <ul class="nav nav-list">
+				<li>
+				<label for="lessonsType">Type</label>
+					<span><select id="lessonsType" name="lessonsType" size="1" required>
+						{% for type in types %}
+						<option value="{{type.key.id()}}">{{type.typename}}</option>
+						{% endfor %}
+					</select>			
+					</span>
+				</li>
+				<li>
+					<label for="lessonsInputCity">City</label>
+					<input  id="lessonInputCity" name="lessonsInputCity" type="text" required/>
+				</li>
+				<li><label for="lessonsInputLocation">Location</label>
+					<input  id="lessonsInputLocation" name="lessonsInputLocation" type="text" required/>
+				</li>
+				<li><label for="lessonsInputDate">Date</label>
+					<input  id="lessonInputDate" name="lessonsInputDate" type="text" required/>
+				</li>
+				<li><label for="lessonsInputTime">Time</label>
+					<input  id="lessonInputTime" name="lessonsInputTime" type="text" required/>
+				</li>
+				<li><label for="lessonsInputCost">Cost</label>
+					<input  id="lessonInputCost" name="lessonsInputCost" type="text" required/>
+				</li>
+				<li><label for="lessonsInputDetailsText">Details</label>
+					<textarea id="lessonInputDetailsText" name="lessonsInputDetailsText" rows="5" required/>
+					</textarea>
+				</li>
+				</ul>
+				
+		</fieldset>
+</form>
+
+

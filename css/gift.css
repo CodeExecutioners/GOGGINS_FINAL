@@ -1,0 +1,51 @@
+fieldset {
+	width: 800px;
+
+}
+legend {
+	font-size: 20px;
+}
+label.field {
+	text-align: right;
+	width: 100px;
+	float: left;
+	font-weight: bold;
+}
+input.textbox {
+	width: 400px;
+	float: right;
+}
+fieldset div {
+	clear: both;
+	padding: 5px;
+}
+
+#giftContainer{
+	  margin-left: auto;
+    margin-right: auto;
+	
+}
+
+div .giftInput{
+width: 100%;
+padding:0.1em;
+margin:0.1em;
+}
+
+div .giftInput span{
+	display:block;
+	overflow:hidden;
+}
+div .giftInput label{
+	float: left;
+	margin-right:10px;
+    padding:5px 0;
+    color:gray;
+}
+
+	div.inputdata input{
+        width:100%;
+        padding-top:8px;
+        background:none;
+    }
+

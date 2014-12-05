@@ -1,0 +1,43 @@
+<form class="formLesson" name="editLesson" id="editLessonForm">
+	<fieldset>
+	<input  type="hidden" id="editlessonId" name="editlessonsId" type="text" value="{{lesson.key.id()}}" required/>
+			 <ul class="nav nav-list">
+				
+				<li>
+				<label for="editlessonsType">Type</label>
+					<span><select id="editlessonsType" name="editlessonsType" size="1" required>
+						
+						{% for type in types %}
+							{% if lesson.type_key.id() == type.key.id() %}
+								<option value="{{type.key.id()}}" selected>{{type.typename}}</option>
+							{% else %}
+								<option value="{{type.key.id()}}">{{type.typename}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>			
+					</span>
+				</li>
+				<li>
+					<label for="editlessonsInputCity">City</label>
+					<input  id="editlessonInputCity" name="editlessonsInputCity" type="text" value="{{lesson.city}}" required/>
+				</li>
+				<li><label for="editlessonsInputLocation">Location</label>
+					<input  id="editlessonsInputLocation" name="editlessonsInputLocation" type="text" value="{{lesson.location}}" required/>
+				</li>
+				<li><label for="editlessonsInputDate">Date</label>
+					<input  id="editlessonInputDate" name="editlessonsInputDate" type="text" value="{{lesson.date}}"required/>
+				</li>
+				<li><label for="editlessonsInputTime">Time</label>
+					<input  id="editlessonInputTime" name="editlessonsInputTime" type="text" value="{{lesson.time}}"required/>
+				</li>
+				<li><label for="editlessonsInputCost">Cost</label>
+					<input  id="editlessonInputCost" name="editlessonsInputCost" type="text" value="{{lesson.cost}}"required/>
+				</li>
+				<li><label for="editlessonsInputDetailsText">Details</label>
+					<textarea id="editlessonInputDetailsText" name="editlessonsInputDetailsText" value="{{lesson.details}}" rows="5" required/>
+					</textarea>
+				</li>
+				</ul>
+		</fieldset>
+</form>
+	  

@@ -1,0 +1,202 @@
+
+{% extends "templates/_base.htm" %}
+{% block bodycontent %}
+		
+		<script type="text/javascript">
+			function hideshow(which){
+				alert('hideshow')
+				var resArray = [];
+				document.getElementById('link1').style.display="none"
+				
+				
+				{% for resource in resources %}
+					res = document.getElementById('{{resource.key.id()}}')
+					resArray.push(res)
+				{% endfor %}
+				
+				var i = 0
+				{% for resource in resources %}
+					if (which.id=='{{resource.key.id()}}') {
+						resArray[i].style.display="block"
+					}else{
+						resArray[i].style.display="none"
+					}
+					i = i + 1
+				{% endfor %}
+			}
+		</script>
+		<!-- Main -->
+		
+
+			<section class="wrapper style1">
+				<div class="container">
+					<div class="row double">
+						<div class="3u">
+							<div id="sidebar">
+
+								<!-- Sidebar -->
+									
+									<section>
+										<h3>Links</h3>
+
+										{% for resource in resources %}
+											{% if resource.type == 'link' %}
+												<ul><a href="javascript:hideshow(document.getElementById('{{resource.key.id()}}'))">{{resource.title}}</a></ul>
+											{% endif %}
+												
+										{% endfor %}
+										
+										<h3>Locations</h3>
+										{% for resource in resources %}
+											{% if resource.type == 'location' %}
+												<ul><a href="javascript:hideshow(document.getElementById('{{resource.key.id()}}'))">{{resource.title}}</a></ul>
+											{% endif %}
+										{% endfor %}
+									</section>
+						
+							</div>
+						</div>
+
+						<div class="9u skel-cell-important">
+							<div id="content">
+
+								<!-- Content -->
+								
+								<article id="link1" style="display: block;">
+										<header>
+											<h2>Resources</h2>
+										</header>
+										<p>Click on the link or location you want to access. 
+										</p>
+								</article>
+								
+								
+								
+								{% for resource in resources %}
+									{% if resource.type == 'link' %}
+									<!--make it editable by id-->
+									<article id="{{resource.key.id()}}" style="display: none;">
+										<header>
+											
+											<h2>{{resource.title}}</h2>
+											
+										</header>
+										<a href="{{resource.linkOrAddress}}">
+											{{resource.linkOrAddress}}
+										</a>
+											<p>
+											<input class="createResourceEditor" type="button" value="Create Resource Editor">
+											<input class="removeResourceEditor"  type="button" value="Remove Resource Editor">
+											</p>
+											
+											
+											<div id="editor-{{resource.key.id()}}" class="editable">
+														
+														{{resource.desc|safe}}
+											</div>
+											<!-- This div will hold the editor. -->
+											<!--
+											<div id="editorResource">
+												
+												<div id="contentsResource" style="display: none">
+													
+													
+													<div id="editorContentsResource">
+														
+														{{resource.desc}}
+													</div>
+												</div>
+											</div>
+											-->
+										
+									</article>
+									{% endif %}
+								{% endfor %}
+								
+								{% for resource in resources %}
+									{% if resource.type == 'location' %}
+									<article id="{{resource.key.id()}}" style="display: none;">
+										<header>
+											<h2>{{resource.title}}</h2>
+										</header>
+										{{resource.desc}}
+									
+									<form action="http://maps.google.com/maps" method="get" target="_blank">
+													<h1>Get Directions</h1>
+													<p>Enter your starting address:</p>
+													<input type="text" name="saddr" />
+													<input type="hidden" name="daddr" value="{{resource.linkOrAddress}}" />
+													<input type="submit" value="Get Directions" />
+												</form>
+									</article>
+									{% endif %}
+									
+								{% endfor %}
+								
+								
+								
+								<!--
+									<article id="link1" style="display: none;">
+										<header>
+											<a href="https://www.veryfineshoes.com">
+											<h2>Very Fine Dance Shoes</h2>
+											</a>
+										</header>
+										<a href="https://www.veryfineshoes.com">
+											www.veryfineshoes.com
+										</a>
+										<p>Very Fine Dancesport Shoes was founded in June 1998. 
+										We are OEM dance footwear manufacturer & supplier and we also carry our own house brands 
+										where the emphasis is on high-end design dance shoes using premium materials. Since our beginning,
+										the principle elements of our company have been focused on our service and delivery of quality products
+										with affordable prices. As a result, Very Fine has successfully became one of the largest dance shoes 
+										supplier in the US. Our relentless pursuit for perfection has made our dance shoes the first choice of
+										many professional dancers.
+										</p>
+									</article>
+									<article id="link2" style="display: none;">
+										<header>
+											<h2>American Classic Dance Shoes</h2>
+										</header>
+										<p></p>
+									</article>
+									<article id="link3" style="display: none;">
+										<header>
+											<a href="http://www.dance.spinstep.com/Main/CVDC">
+											<h2>Chippewa Valley Dance Club</h2>
+											</a>
+										</header>
+										<a href="http://www.dance.spinstep.com/Main/CVDC">
+											www.dance.spinstep.com/Main/CVDC
+										</a>
+										<p>The Chippewa Valley Dance Club (CVDC) is a non-profit ballroom dance club that will be sponsoring
+										five Saturday night dances this year. Also, five Sunday afternoon dances will be included this season 
+										which feature music presented by Goggin Ballroom Dancing. Dances are held at the St Mary's Community Center,
+										1812 Lynn Av, Altoona, WI.</p>
+										
+										<p>CVDC Membership Membership dues are $89 per person, which entitles you to attend all ten Saturday 
+										& Sunday dances. Nonmembers pay $16 per person at the door on Saturdays, Sunday dances are $10 per person.<p>
+										<p>Members enjoy:</p>
+										<ul>
+											<li>A $41 discount compared to the non-member fees </li>
+											<li>ABetter bands, because your advance payment helps us book good bands in advance</li>
+											<li>A stronger dance club: when you join us, all of your membership dues go to the dance club.</li>
+										</ul>
+												<form action="http://maps.google.com/maps" method="get" target="_blank">
+													<h1>Get Directions</h1>
+													<p>Enter your starting address:</p>
+													<input type="text" name="saddr" />
+													<input type="hidden" name="daddr" value="1812 Lynn Av, Altoona, WI" />
+													<input type="submit" value="Get Directions" />
+												</form>
+									</article>
+									-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>			
+
+		
+
+{% endblock %}

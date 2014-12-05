@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<!--
+	Rarcana by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Goggin Ballroom Dancing</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-wide.css" />
+		</noscript>
+		
+		<!--CKEDITOR-->
+		
+		<!--Script for the tabs-->
+		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		
+		<!--Script for datatables-->
+		<script src="js/admin/lessons.js"></script>
+		<script src="js/admin/resources.js"></script>
+	
+		
+		<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.3/css/jquery.dataTables.css">
+		<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+		<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+		
+		<script type="text/javascript">
+		function proceed(){
+				if(confirm("Do you want to proceed with the submission?")==false){
+					return false;
+				}
+			}
+		
+			$(document).ready(function(){ 
+				$("input[name=inputSubject]").change(function() {
+        			$("#shoeOptions").hide();
+        			
+    			}); 
+    			$("input[id=shoes]").change(function() {
+        			$("#shoeOptions").show();
+    			}); 
+
+			});
+		</script>
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Header -->
+			<div id="header">
+						
+				<!-- Logo -->
+					<h1><a href="/" id="logo">Goggin Ballroom Dancing <em>Ballroom, Latin, & Swing Lessons
+
+</em></a></h1>
+				
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li class="current"><a href="/">Home</a></li>
+							<li><a href="contact">About Us/Contact</a></li>
+							<li><a href="resources">Resources</a></li>
+							<li><a href="lessons">Dance Lessons</a></li>
+							<li><a href="gift">Gift Certificates</a></li>
+							{% if user %}
+							<li><a href="logout">Logout, {{user}}</a></li>
+							{% else %}
+							<li><a href="login">Login</a></li>
+							{% endif %}	
+						</ul>
+					</nav>
+
+			</div>
+			<div id="bodycontent">
+			  {% block bodycontent %}
+			  {% endblock %}
+			</div>
+			<!-- Footer -->
+			<div id="footer">
+				<div class="container">
+					<div class="row ">
+						<div class="6u" style="width:100%;">
+							<div class="row collapse-at-2">
+								<section class="6u">
+									<h3>Links</h3>
+									<ul class="links">
+										<li><a href="http://www.veryfineshoes.com/">Very Fine Dancesport Shoes</a></li>
+										<li><a >American Classic</a></li>
+
+									</ul>
+								</section>
+								<section class="6u">
+									<h3>Contact</h3>
+									<ul>
+										<li><a >Dave & Karen Goggin</a></li>
+										<li><a >715.833.1879</a></li>
+										<li><a >Email@DancinGoggin.com</a></li>
+									</ul>
+								</section>
+								<!--
+								<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=State%20Theatre%2C%20Eau%20Claire%20Street%2C%20Eau%20Claire%2C%20WI%2C%20United%20States&key=AIzaSyB8ZUks0aVfu4hv1L1qLCbLv7-e2d_7CBM"></iframe>
+								-->
+							
+				
+							</div>
+						</div>
+					</div>
+				</div>
+
+				
+				
+				
+				
+				<!-- Icons
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+						<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+					</ul>
+
+				-->	
+					
+					
+					
+					
+					
+				
+
+		</body>
+	</html>

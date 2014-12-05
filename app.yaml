@@ -1,0 +1,67 @@
+application: test-dancingoggin
+version: final
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+ 
+- url: /css
+  static_dir: css
+
+- url: /js
+  static_dir: js
+  
+- url: /images
+  static_dir: images
+  
+- url: /sass
+  static_dir: sass
+  
+  
+- url: /contact
+  script: contact.app 
+ 
+- url: /resources 
+  script: resources.app 
+  
+- url: /(photos|dances)
+  script: construction.app 
+  
+- url: /lessons
+  script: lessons.app 
+  
+- url: /(adminLessons|addLesson|updateLesson|editLesson|deleteLesson)
+  script: adminLessons.app  
+  
+- url: /adminResources
+  script: adminResources.app 
+ 
+
+- url: /success
+  script: success.app
+  
+
+- url: /gift
+  script: gift.app
+  
+- url: /(login|logout)
+  script: main.app
+
+
+- url: /index
+  script: main.cpp
+ 
+  
+- url: .*
+  script: main.app
+
+libraries:
+- name: jinja2
+  version: latest
+- name: webapp2
+  version: latest

@@ -1,0 +1,266 @@
+{% extends "templates/_base.htm" %}
+{% block bodycontent %}
+ <script src="js/admin/lessons.js"></script>
+<!-- Main -->
+
+
+
+<script type="text/javascript">
+			function hideshow(which){
+				link1 = document.getElementById('adminPrivateLink')
+				link2 = document.getElementById('adminDropInLink')
+				link3 = document.getElementById('adminGroupLink')
+				if (which.id=='adminPrivateLink') {
+					link1.style.display="block"
+					link2.style.display="none"
+					link3.style.display="none"
+				} else if (which.id=='adminDropInLink') {
+					link1.style.display="none"
+					link2.style.display="block"
+					link3.style.display="none"
+				} else if (which.id=='adminGroupLink') {
+					link1.style.display="none"
+					link2.style.display="none"
+					link3.style.display="block"
+				}
+			}
+		</script>
+
+
+
+
+
+		<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	
+
+
+
+
+	
+<section class="wrapper style1">
+
+
+<!-- Button trigger modal -->
+		
+
+
+
+<div class="container">
+
+{% if user %}
+<button id="modalButton" type="button" class="addLesson btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+		  Add Lesson
+		</button>
+{% endif %}	
+<!-- Modal -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div  class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Lesson</h4>
+      </div>
+	 
+		 
+		  <div class="modal-body">
+		
+
+
+		</div>
+		
+	
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button  id="submitLesson" type="button">Save Changes</button>
+		<!--<input type="submit" id="submitLesson" class="btn btn-primary" value="Save Changes"></button>-->
+      </div>
+	 
+    </div>
+  </div>
+</div>
+
+<!--
+
+<div class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabelEdit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div  class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabelEdit">Edit Lesson</h4>
+      </div>
+	 
+		 
+		  <div class="modal-body">
+		
+
+
+		</div>
+		
+	
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button  id="editLesson" type="button" class="btn btn-primary" data-dismiss="modal">Update Lesson</button>
+		<!--<input type="submit" id="submitLesson" class="btn btn-primary" value="Save Changes"></button>
+      </div>
+	 
+    </div>
+  </div>
+</div>
+-->
+
+
+<div class="row">
+
+				<div class="3u">
+							<div id="sidebar">
+
+								<!-- Sidebar -->
+									
+									<section>
+									{% if user %}
+										<a href="adminLessons">
+										Admininstation
+									</a>
+										{% endif %}	
+									
+										<h4>Lessons</h4>
+										<ul class="links">
+										<li><a href="javascript:hideshow(document.getElementById('privateLink'))" >Private & Group Lessons (by appointment)</a></li>
+										<li><a href="javascript:hideshow(document.getElementById('dropInLink'))"  >Group Lessons/Dances Drop-In</a></li>
+										<li><a href="javascript:hideshow(document.getElementById('groupLink'))" >Group Lessons (4-6 week sessions)</a></li>
+										</ul>
+									</section>
+						
+							</div>
+				</div>
+		<div class="9u">
+		
+		<article id="adminPrivateLink" class="private" style="display: none;">
+		<h4>Private Lessons</h4>
+		{% for plesson in privateLessons %}		
+		<div id="{{plesson.key.id()}}"class="span12" style="border-color:blue; border:solid; padding:10px">
+		<button type="button" class="editLesson btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+			Edit
+		</button>
+		<button type="button" class="deleteLesson btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+			Delete
+		</button>			
+			<table class="span9">
+			 <tr>
+				<td align="left">LOCATION:</br>{{plesson.location}}</td>
+				<td align="left">DATE:</br>{{plesson.date}}</td>
+				<td align="left">TIME:</br>{{plesson.time}}</td>
+			 </tr>
+			 <tr>
+			 
+				<td colspan = "3"align="left"><p>Details</p></br><p>{{plesson.details}}</p>
+				</td>
+			 </tr>
+			  <tr>
+				
+				<td align="left">CITY: </br>{{plesson.city}}</td>
+				<td></td>
+				<td align="left">COST: </br>{{plesson.cost}}</td>
+			 </tr>
+			 
+			 </table>
+		
+		
+		</div>		
+		{% endfor %}
+		
+		</article>
+		
+		
+		<article id="dropInLink" class="dropIn" style="display: none;">
+		 <h4>Drop-In Lessons</h4>
+		
+		
+		{% for dlesson in dropInLessons %}		
+		<div id="{{dlesson.key.id()}}" class="span12" style="border:solid">
+		<button type="button" class="editLesson btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+			Edit
+		</button>
+		<button type="button" class="deleteLesson btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+			Delete
+		</button>
+					
+			<table class="span9">
+			 <tr>
+				<td align="left">LOCATION:</br>{{dlesson.location}}</td>
+				<td align="left">DATE:</br>{{dlesson.date}}</td>
+				<td align="left">TIME:</br>{{dlesson.time}}</td>
+			 </tr>
+			 <tr>
+			 
+				<td colspan = "3"align="left"><p>Details</p></br><p>{{dlesson.details}}</p>
+				</td>
+			 </tr>
+			  <tr>
+				
+				<td align="left">CITY: </br>{{dlesson.city}}</td>
+				<td></td>
+				<td align="left">COST: </br>{{dlesson.cost}}</td>
+			 </tr>
+			 
+			 </table>
+			
+		</div>		
+		{% endfor %}
+		</article>
+		
+		
+		<article id="groupLink" class="group" style="display: none;">
+		 <h4>Group Lessons</h4>
+		
+		{% for glesson in groupLessons %}		
+		<div id="{{glesson.key.id()}}" class="span12" style="border:solid">
+		<button type="button" class="editLesson btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+			Edit
+		</button>
+		<button type="button" class="deleteLesson btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+			Delete
+		</button>
+			 <table class="span9">
+			 <tr>
+				<td align="left">LOCATION:</br>{{glesson.location}}</td>
+				<td align="left">DATE:</br>{{glesson.date}}</td>
+				<td align="left">TIME:</br>{{glesson.time}}</td>
+			 </tr>
+			 <tr>
+			 
+				<td colspan = "3"align="left"><p>DETAILS</p></br><p>{{glesson.details}}</p>
+				</td>
+			 </tr>
+			  <tr>
+				
+				<td align="left">CITY: </br>{{glesson.city}}</td>
+				<td></td>
+				<td align="left">COST: </br>{{glesson.cost}}</td>
+			 </tr>
+			 
+			 </table>
+				
+		 
+		</div>	
+		</br>
+		{% endfor %}
+		
+		</article>
+
+
+		</div>
+</div>
+
+</div>
+
+
+
+
+</section>
+
+ 
+
+{% endblock %}
