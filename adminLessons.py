@@ -20,7 +20,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 
 class AddLesson(BaseHandler):
 	def get(self):
-		
+		logging.debug("Add Lesson GET START")
 		types = models.LessonType.getAllTypes()
 		template_values ={'types': types}
 		template = JINJA_ENVIRONMENT.get_template('templates/addLesson.html')
@@ -31,7 +31,7 @@ class AddLesson(BaseHandler):
 	
 class UpdateLesson(BaseHandler):
 	def post(self):
-		logging.debug("AddLesson Post start")
+		logging.debug("Update Lesson Post start")
 		#get all the table data
 		jsonstring = self.request.body
 		self.response.out.write(jsonstring)
@@ -39,21 +39,37 @@ class UpdateLesson(BaseHandler):
 		
 		#get the values
 		id = jsonObject[0]['value']
-		type_id = jsonObject[1]['value']
-		city = jsonObject[2]['value']
+		type_name = jsonObject[1]['value']
+		city_name = jsonObject[2]['value']
 		location = jsonObject[3]['value']
 		date = jsonObject[4]['value']
 		time = jsonObject[5]['value']
 		cost = jsonObject[6]['value']
 		details = jsonObject[7]['value']
+		link = jsonObject[8]['value']
 		
-		#get keys
-		type_key = ndb.Key(models.LessonType, int(type_id))
-		logging.debug(type_key.get())
+		
+		#insert city if new
+		city = models.LessonCity.getLessonCityByName(city_name)
+		if city == None:
+			logging.debug("CITY NOT FOUND, adding new city")
+			city = models.LessonCity.insertCity(city_name)
+		logging.debug(city)
+		
+		type = models.LessonType.getLessonTypeByName(type_name)
+		
+		if type == None:
+			logging.debug("TYPE NOT FOUND, adding new type")
+			type = models.LessonType.insert(type_name)
+		logging.debug(type)
+		
+		
+		
+
 		#update or insert
-		models.LessonComposite.updateLessonByID(id, type_key, city, date, time, location, cost, details)
+		models.LessonCompositeKeys.updateLessonByID(id, type.key, city.key, date, time, location, cost, details, link)
 		
-		logging.debug("Addlesson Post done")
+		logging.debug("UPDATE LESSON POST DONE")
 			
 		
 	
@@ -64,8 +80,9 @@ class EditLesson(BaseHandler):
 		id = self.request.body
 		logging.debug("id: " +id)
 		types = models.LessonType.getAllTypes()
-		lesson = models.LessonComposite.getLessonByID(id)
-		template_values ={'lesson':lesson, 'types': types}
+		cities = models.LessonCity.getAllCities()
+		lesson = models.LessonCompositeKeys.getLessonByID(id)
+		template_values ={'lesson':lesson, 'types': types, 'cities': cities}
 		template = JINJA_ENVIRONMENT.get_template('templates/editLesson.html')
 		self.response.write(template.render(template_values))
 		logging.debug("EditLesson Get done")
@@ -75,11 +92,35 @@ class DeleteLesson(BaseHandler):
 		logging.debug("DELETE LessonTest POST start")
 		id = self.request.body
 		logging.debug("id: " +id)
-		lesson = models.LessonComposite.deleteLessonByID(id)
+		lesson = models.LessonCompositeKeys.deleteLessonByID(id)
+		
 		self.response.write("deleted")
 		logging.debug("DeleteLesson Get done")
 		
 	
+class DeleteType(BaseHandler):
+	def post(self):
+		logging.debug("DELETE LessonTYPE POST start")
+		id = self.request.body
+		logging.debug("id: " +id)
+		type = models.LessonType.deleteLessonTypeByID(id)
+		
+		#delete all lessson in type
+		logging.debug(type)
+		models.LessonCompositeKeys.deleteAllLessonsByType(type.key)
+		logging.debug("DeleteLesson Get done")
+		
+class DeleteCity(BaseHandler):
+	def post(self):
+		logging.debug("DELETE LessonCity POST start")
+		id = self.request.body
+		logging.debug("id: " +id)
+		type = models.LessonCity.deleteLessonCityByID(id)
+		self.response.write("deleted type")
+		logging.debug("DeleteLesson Get done")
+		
+	
+
 	
 class AdminLessonsPage(BaseHandler):
 	def get(self):
@@ -109,4 +150,6 @@ app = webapp2.WSGIApplication([
 		('/updateLesson', UpdateLesson),
 		('/editLesson', EditLesson),
 		('/deleteLesson', DeleteLesson),
+		('/deleteType', DeleteType),
+		('/deleteCity', DeleteCity)
 		],config = config, debug=True)

@@ -23,23 +23,40 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class LessonsPage(BaseHandler):
 
 	def get(self):
+		
 		user = self.session.get('user')
 		logging.debug(user)
+		#models.Users.insertUser('fisherr', 'goggins', 'fisher.robert26@gmail.com')
+		
+		#get all cities
+		#models.LessonType.insert('Private')
+		#models.LessonType.insert('Group')
+		#models.LessonType.insert('Drop-In')
+		#models.LessonCity.insertCity('City1')
+		
+		cities = models.LessonCity.getAllCities()
+		logging.debug(cities.get())
 		types = models.LessonType.getAllTypes()
+		#testType = types.get()
+		#testType.cities.append(cities.get().key)
+		
+		#testCity = cities.get()
+		#testCity.lessons.append(allLessons.get().key)
+		
+		#models.LessonCompositeKeys.insertLesson(type_key, city_key, 'date', 'time', 'location', 'cost', 'details')
+		allLessons = models.LessonCompositeKeys.getAllLessons()
+		logging.debug(allLessons.get())
 		
 		
-		#get typeKeys
-		private_key = models.LessonType.getLessonTypeByName('Private & Group Lessons (by appointment)').key
-		drop_key = models.LessonType.getLessonTypeByName('Group Lessons/Dances Drop-In').key
-		logging.debug(drop_key)
-		group_key = models.LessonType.getLessonTypeByName('Group Lessons (4-6 week sessions)').key
-		logging.debug(group_key)
-		privateLessons = models.LessonComposite.getAllLessonsByType(private_key)
-		dropInlessons = models.LessonComposite.getAllLessonsByType(drop_key)
-		groupLessons = models.LessonComposite.getAllLessonsByType(group_key)
-		template_values ={'user': user, 'types': types, 'privateLessons': privateLessons,'dropInLessons':dropInlessons, 'groupLessons': groupLessons}
+		cities = models.LessonCity.getAllCities()
+		template_values ={'user': user, 'types': types, 'lessons': allLessons, 'cities': cities}
 		template = JINJA_ENVIRONMENT.get_template('templates/lessons.html')
 		self.response.write(template.render(template_values))
+		
+		#insert a type with repeated properties
+		
+		
+		
 		
 	
 	def post(self):
@@ -57,9 +74,10 @@ class LessonsPage(BaseHandler):
 		time = jsonObject[5]['value']
 		cost = jsonObject[6]['value']
 		details = jsonObject[7]['value']
+		link = jsonObject[8]['value']
 		
 		#Type = LessonType.get_by_id(int(typeid))
-		models.LessonTest.updateLessonByID(id, type, city, date, time, location, cost, details)
+		models.LessonCompositeKeys.updateLessonByID(id, type, city, date, time, location, cost, details, link)
 		#models.LessonTest.insertLesson(type, city, date, time, location, cost, details)
 		logging.debug("LessonsPage Post done")
 		#self.redirect('/lessons')	

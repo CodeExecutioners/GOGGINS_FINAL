@@ -6,10 +6,50 @@ from google.appengine.ext import ndb
 from google.appengine.ext import db
 
 
-
-
-
 class LessonType(ndb.Model):
+	typename = ndb.StringProperty()
+	
+	@classmethod
+	def getAllTypes(self):
+		try:
+			return self.query()
+		except:
+			logging.error('getAllTypes failed')
+			
+	@classmethod
+	def getLessonTypeByName(self, typename):
+		try:
+			lessonType =  self.query(self.typename == typename).get()
+			if lessonType != None:
+				logging.debug(lessonType)
+				return lessonType
+		except:
+			logging.error('getAllCities failed')
+							
+	@classmethod
+	def insertType(self, typename):
+			logging.debug('insertType start')
+			
+			try:
+				type = self(typename = typename)
+				type.put()
+				logging.debug('insertType success')
+			except:
+				logging.error('insertType failed')
+		
+	@classmethod
+	def deleteLessonTypeByID(self, id):
+			try:
+			
+				if(id != 'None'):
+					delete_lesson = LessonType.get_by_id(int(id))
+					delete_lesson.key.delete()
+					logging.debug('deleteLessonByID success')
+			except:
+				logging.error('deleteLessonByID failed')
+		
+
+class LessonTypeCities(ndb.Model):
 	typename = ndb.StringProperty()
 	cities = ndb.KeyProperty(repeated=True)
 	@classmethod
@@ -22,15 +62,12 @@ class LessonType(ndb.Model):
 	@classmethod
 	def getLessonTypeByName(self, typename):
 		try:
-			logging.debug("getLessonTypeByName start")
-			logging.debug("typename: " + typename)
-			type= self.query(self.typename == typename)
-			if type != None:
-				return type.get()
-			else:
-				return None
+			lessonType =  self.query(self.typename == typename).get()
+			if lessonType != None:
+				logging.debug(lessonType)
+				return lessonType
 		except:
-			logging.error('getLessonTypeByName failed')
+			logging.error('getAllCities failed')
 							
 	@classmethod
 	def insert(self, typename):
@@ -40,7 +77,6 @@ class LessonType(ndb.Model):
 				
 				type = self(typename = typename, cities = [])
 				type.put()
-				return type
 				logging.debug('insertTypeCities success')
 			except:
 				logging.error('insertTypeCities failed')
@@ -50,14 +86,9 @@ class LessonType(ndb.Model):
 			try:
 			
 				if(id != 'None'):
-					delete_lesson = LessonType.get_by_id(int(id))
-					lesson = delete_lesson
+					delete_lesson = LessonTypeCities.get_by_id(int(id))
 					delete_lesson.key.delete()
-					return lesson
 					logging.debug('deleteLessonByID success')
-					#delete all cities in that type
-					
-					
 			except:
 				logging.error('deleteLessonByID failed')
 		
@@ -67,19 +98,151 @@ class LessonType(ndb.Model):
 		
 		
 
-
-
-class LessonCompositeKeys(ndb.Model):
+class LessonTest(ndb.Model):
 	"""Models an individual lesson"""
 	#should really use date time property
-	type_key = ndb.KeyProperty()
-	city_key = ndb.KeyProperty()
+	type = ndb.StringProperty()
+	city = ndb.StringProperty()
 	date = ndb.StringProperty()
 	time = ndb.StringProperty()
 	location = ndb.StringProperty()
 	cost = ndb.StringProperty()
 	details = ndb.TextProperty()
-	link = ndb.StringProperty()
+	
+	@classmethod
+	def getAllLessons(self):
+		try:
+			return self.query()
+		except:
+			logging.error('getAllLessons failed')
+	
+	@classmethod
+	def getAllLessonsByType(self, type):
+		#Group, DropIn
+		try:
+			return self.query(self.type==type)
+		except:
+			logging.error('getAllLessonsByType failed')
+	
+	
+	
+	@classmethod
+	def getNLessons(self, n):
+		try:
+			return self.query().fetch(n)
+		except:
+			logging.error('getNLesssons failed')
+	
+	#insert
+	@classmethod
+	def insertLesson(self, type, city, date, time, location, cost, details):
+			logging.debug('insertLesson start')
+			detailsText = db.Text(details)
+			try:
+				#LessonType.get_by_id(int(typeid)
+				lesson = self(type = type, city = city, date = date, time = time, location = location, cost = cost, details = detailsText)
+				lesson.put()
+				logging.debug('insertLesson success')
+			except:
+				logging.error('insertLesson failed')
+		
+	
+	#insert
+	@classmethod
+	def updateLessonByID(self, id,type, city, date, time,  location, cost, details):
+			
+			
+			try:
+			
+				if(id != 'None'):
+					#lesson_key = ndb.Key(self,id)
+					updated_lesson = LessonTest.get_by_id(int(id))
+					logging.debug(updated_lesson)
+				
+					if(updated_lesson != None):
+					
+						logging.debug("Updated city" + updated_lesson.city)
+						updated_lesson.city =city
+						updated_lesson.type = type
+						updated_lesson.date = date
+						updated_lesson.time = time
+						updated_lesson.location = location
+						updated_lesson.cost = cost
+						detailsText = db.Text(details)
+						updated_lesson.details = detailsText
+						updated_lesson.put()
+						logging.debug('updateLesson success')
+				else:
+					logging.debug('Inserting new record')
+					self.insertLesson(type, city, date, time,  location, cost, details)
+			except:
+				logging.error('updateLesson failed')
+		
+
+	@classmethod
+	def getLessonByID(self, id):
+			try:
+			
+				if(id != 'None'):
+					#lesson_key = ndb.Key(self,id)
+					lesson = LessonTest.get_by_id(int(id))
+					logging.debug(lesson)
+				
+					if(lesson != None):
+						return lesson
+				else:
+					logging.debug('Get lesson by id failed')
+					
+			except:
+				logging.error('Get lesson by id failed ')
+		
+
+	
+	#delete
+	@classmethod
+	def deleteAllLessons(self):
+		try:
+			lesson_keys = self.query().fetch(keys_only=True)
+			ndb.delete_multi(lesson_keys)
+			logging.debug('deleteAllLessons success')
+		except:
+			logging.error('deleteAllLessons failed')
+		
+	#insert
+	@classmethod
+	def deleteLessonByID(self, id):
+			try:
+			
+				if(id != 'None'):
+					delete_lesson = LessonTest.get_by_id(int(id))
+					delete_lesson.key.delete()
+					logging.debug('deleteLessonByID success')
+			except:
+				logging.error('deleteLessonByID failed')
+		
+
+		
+	#filtering
+	@classmethod
+	def getLessonsByCity(self, city):
+		logging.debug('getLessonsByCity started')
+		try:
+			return self.query(self.city == city);
+		except:
+			logging.error('getLessonsByCity failed')
+			
+
+class LessonComposite(ndb.Model):
+	"""Models an individual lesson"""
+	#should really use date time property
+	type_key = ndb.KeyProperty()
+	city = ndb.StringProperty()
+	#city_key = ndb.KeyProperty()
+	date = ndb.StringProperty()
+	time = ndb.StringProperty()
+	location = ndb.StringProperty()
+	cost = ndb.StringProperty()
+	details = ndb.TextProperty()
 	
 	@classmethod
 	def getAllLessons(self):
@@ -108,35 +271,35 @@ class LessonCompositeKeys(ndb.Model):
 	
 	#insert
 	@classmethod
-	def insertLesson(self, type_key, city_key, date, time, location, cost, details, link):
+	def insert(self, type_key, city, date, time, location, cost, details):
 			logging.debug('insertLesson start')
 			detailsText = db.Text(details)
 			try:
 				logging.debug("creating lesson")
-				lesson = self(type_key = type_key, city_key = city_key, date = date, time = time, location = location, cost = cost, details = detailsText, link = link)
+				lesson = self(type_key = type_key, city = city, date = date, time = time, location = location, cost = cost, details = detailsText)
 				lesson.put()
 				logging.debug('insertLesson success')
-				return lesson
 			except:
 				logging.error('insertLesson failed')
 		
 	
 	#insert
 	@classmethod
-	def updateLessonByID(self, id, type_key, city_key, date, time,  location, cost, details, link):
+	def updateLessonByID(self, id, type_key, city, date, time,  location, cost, details):
 			
 			
 			try:
 				logging.debug("updateLessonByID start")
 				if(id != 'None'):
-					logging.debug(id)
-					updated_lesson = LessonCompositeKeys.get_by_id(int(id))
-					
+					updated_lesson = LessonComposite.get_by_id(int(id))
+					logging.debug(updated_lesson)
 				
 					if(updated_lesson != None):
 					
-						
-						updated_lesson.city_key =city_key
+						logging.debug("Updated city" + updated_lesson.city)
+						#updated_lesson.city_key =city_key
+						#updated_lesson.city = city_key.cityname
+						updated_lesson.city = city
 						updated_lesson.type_key = type_key
 						updated_lesson.date = date
 						updated_lesson.time = time
@@ -144,12 +307,11 @@ class LessonCompositeKeys(ndb.Model):
 						updated_lesson.cost = cost
 						detailsText = db.Text(details)
 						updated_lesson.details = detailsText
-						updated_lesson.link = link
 						updated_lesson.put()
 						logging.debug('updateLesson success')
 				else:
 					logging.debug('Inserting new record')
-					self.insertLesson(type_key, city_key, date, time,  location, cost, details, link)
+					self.insert(type_key, city, date, time,  location, cost, details)
 			except:
 				logging.error('updateLesson failed')
 		
@@ -160,7 +322,7 @@ class LessonCompositeKeys(ndb.Model):
 			
 				if(id != 'None'):
 					#lesson_key = ndb.Key(self,id)
-					lesson = LessonCompositeKeys.get_by_id(int(id))
+					lesson = LessonComposite.get_by_id(int(id))
 					logging.debug(lesson)
 					
 					return lesson
@@ -181,20 +343,6 @@ class LessonCompositeKeys(ndb.Model):
 			logging.debug('deleteAllLessons success')
 		except:
 			logging.error('deleteAllLessons failed')
-	
-	
-	#delete
-	@classmethod
-	def deleteAllLessonsByType(self, type_key):
-		try:
-			logging.debug(type_key)
-			lesson_keys = LessonCompositeKeys.query(type_key == type_key).fetch(keys_only=True)
-			if lesson_keys != None:
-				ndb.delete_multi(lesson_keys)
-			logging.debug('deleteAllLessonsType success')
-		except:
-			logging.error('deleteAllLessonsTYpe failed')
-	
 		
 	#insert
 	@classmethod
@@ -202,10 +350,7 @@ class LessonCompositeKeys(ndb.Model):
 			try:
 			
 				if(id != 'None'):
-					
-					delete_lesson = LessonCompositeKeys.get_by_id(int(id))
-					logging.debug(delete_lesson)
-					
+					delete_lesson = LessonComposite.get_by_id(int(id))
 					delete_lesson.key.delete()
 					logging.debug('deleteLessonByID success')
 			except:
@@ -367,14 +512,26 @@ class LessonCompositeOld(ndb.Model):
 		except:
 			logging.error('getLessonsByCity failed')
 			
-		
+
+			
+			
+			
+			
+			
+			
+			
+			
+					
+			
+			
+			
+			
+			
 class LessonCity(ndb.Model):
 	cityname = ndb.StringProperty()
-	lessons = ndb.KeyProperty(repeated=True)
 	@classmethod
 	def getAllCities(self):
 		try:
-			logging.debug("getAllCities started")
 			return self.query()
 		except:
 			logging.error('getAllCities failed')
@@ -396,7 +553,6 @@ class LessonCity(ndb.Model):
 		try:
 			city = self(cityname = cityname)
 			city.put()
-			return city
 			logging.debug('insertCity success')
 		except:
 			logging.error('insertCity failed')
@@ -424,7 +580,37 @@ class LessonCity(ndb.Model):
 				logging.error('deleteLessonCityByID failed')
 		
 			
-	
+			
+
+class Editor(ndb.Model):
+	#perhaps needs an CK Editor ID
+	editorID = ndb.StringProperty
+	html = ndb.StringProperty()
+
+	@classmethod
+	def insertEditor(self, html):
+			logging.debug('insertEditor start')
+			try:
+				editor = self(html = html)
+				editor.put()
+				logging.debug('insertEditor success')
+			except:
+				logging.error('insertEditor failed')
+				
+	@classmethod
+	def getAllEditors(self):
+		try:
+			return self.query()
+		except:
+			logging.error('getAllEditors failed')
+			
+	@classmethod
+	def getEditorByID(self):
+		try:
+			return self.query()
+		except:
+			logging.error('getAllEditors failed')
+
 
 			
 class Email(ndb.Model):

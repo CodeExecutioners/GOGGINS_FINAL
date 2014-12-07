@@ -869,3 +869,16 @@ padding:0;
 	margin-top:-2em;
 	
 }
+
+.lessonHeader{
+	background-color:#333;
+	text-align: center;
+	font-size: medium;
+	padding: 10px;
+	color: white;
+}
+.lessonHeaderTitle{
+	
+	font-size: x-large;
+
+}

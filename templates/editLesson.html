@@ -4,39 +4,47 @@
 			 <ul class="nav nav-list">
 				
 				<li>
-				<label for="editlessonsType">Type</label>
-					<span><select id="editlessonsType" name="editlessonsType" size="1" required>
-						
+					<label for="editlessonsType">Type:</label>
 						{% for type in types %}
 							{% if lesson.type_key.id() == type.key.id() %}
-								<option value="{{type.key.id()}}" selected>{{type.typename}}</option>
-							{% else %}
-								<option value="{{type.key.id()}}">{{type.typename}}</option>
+								<input  id="editlessonInputType" name="editlessonsInputType" placeholder="ex: Private, Group, Events, etc."type="text" value="{{type.typename}}" required/>
 							{% endif %}
 						{% endfor %}
-					</select>			
-					</span>
+					
+				</li>
+				
 				</li>
 				<li>
-					<label for="editlessonsInputCity">City</label>
-					<input  id="editlessonInputCity" name="editlessonsInputCity" type="text" value="{{lesson.city}}" required/>
+				
+					<label for="editlessonsInputCity">City:</label>
+					{% for city in cities %}
+							{% if lesson.city_key.id() == city.key.id() %}
+								<input  id="editlessonInputCity" name="editlessonsInputCity" placeholder="ex: Private, Group, Events, etc." type="text" value="{{city.cityname}}" required/>
+							{% endif %}
+						{% endfor %}
+					
 				</li>
-				<li><label for="editlessonsInputLocation">Location</label>
-					<input  id="editlessonsInputLocation" name="editlessonsInputLocation" type="text" value="{{lesson.location}}" required/>
+				<li><label for="editlessonsInputLocation">Location:</label>
+					<input  id="editlessonsInputLocation" name="editlessonsInputLocation"  type="text" value="{{lesson.location}}" required/>
 				</li>
-				<li><label for="editlessonsInputDate">Date</label>
-					<input  id="editlessonInputDate" name="editlessonsInputDate" type="text" value="{{lesson.date}}"required/>
+				<li><label for="editlessonsInputDate">Date:</label>
+					<input  id="editlessonInputDate" name="editlessonsInputDate" type="text" placeholder="MM/DD/YYYY and/or Day of Week (Sunday-Saturday)" value="{{lesson.date}}"required/>
 				</li>
-				<li><label for="editlessonsInputTime">Time</label>
-					<input  id="editlessonInputTime" name="editlessonsInputTime" type="text" value="{{lesson.time}}"required/>
+				<li><label for="editlessonsInputTime">Time:</label>
+					<input  id="editlessonInputTime" name="editlessonsInputTime" placeholder="ex: 7:00 PM - 8:00 PM" type="text" value="{{lesson.time}}"required/>
 				</li>
-				<li><label for="editlessonsInputCost">Cost</label>
-					<input  id="editlessonInputCost" name="editlessonsInputCost" type="text" value="{{lesson.cost}}"required/>
+				<li><label for="editlessonsInputCost">Cost ($):</label>
+					<input  id="editlessonInputCost" name="editlessonsInputCost" placeholder="ex: 49/person" type="text" value="{{lesson.cost}}"required/>
 				</li>
-				<li><label for="editlessonsInputDetailsText">Details</label>
-					<textarea id="editlessonInputDetailsText" name="editlessonsInputDetailsText" value="{{lesson.details}}" rows="5" required/>
-					</textarea>
+				<li><label for="editlessonsInputDetailsText">Details:</label>
+					<input  id="editlessonInputDetailsText" name="editlessonsInputDetailsText" value="{{lesson.details}}" type="text" required/>
+					
 				</li>
+				<li><label for="editlessonsInputLink">Link:</label>
+				
+					<input  id="editlessonInputLink" name="editlessonsInputLink" placeholder="ex: http://www.dancingoggin.com" value="{{lesson.link}}"type="text"/>
+				</li>	
+				
 				</ul>
 		</fieldset>
 </form>
