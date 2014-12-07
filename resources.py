@@ -14,23 +14,15 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 	
 class ResourcesPage(BaseHandler):
 	def get(self):
-		type = 'link'
-		title = 'testTitle2'
-		linkOrAddress = 'testLinkOrAddress'
-		desc = 'testDescText'
-		#models.ResourceText.deleteAllResources()
-		#models.ResourceText.insertResource(type, title, linkOrAddress, desc)
-		resources = models.ResourceText.getAllResources()
-		template_values ={'resources': resources}
+
+		resources = models.Resource.getAllResources()
+		users = self.session.get('user')
+		template_values ={'user':users, 'resources': resources}
 		template = JINJA_ENVIRONMENT.get_template('templates/resources.html')
 		self.response.write(template.render(template_values))
 
 	def post(self):
-		logging.debug('post start')
-		#models.Resources.insertEditor(data)
-		#get the json and post
-		#get all the table data
-		
+
 		jsonstring = self.request.body
 		logging.debug(jsonstring)
 		self.response.out.write(jsonstring)
@@ -39,7 +31,7 @@ class ResourcesPage(BaseHandler):
 		for resource in jsonResources:
 			id = resource['ID']
 			desc = resource['DATA']
-			models.ResourceText.updateResourceDescByID(id, desc)
+			models.Resource.updateResourceDescByID(id, desc)
 		logging.debug('post end')
 config = {}
 config['webapp2_extras.sessions'] = {

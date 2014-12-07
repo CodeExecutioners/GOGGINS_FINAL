@@ -1,62 +1,189 @@
-
 {% extends "templates/_base.htm" %}
 {% block bodycontent %}
- 
-<!-- Main -->
 
+<script type="text/javascript">
+			function hideshow(which){
+			
+				var resArray = [];
+				
+			
+				{% for resource in resources %}
+					res = document.getElementById('{{resource.key.id()}}')
+					resArray.push(res)
+				{% endfor %}
+				
+				var i = 0
+				{% for resource in resources %}
+					if (which.id=='{{resource.key.id()}}') {
+						resArray[i].style.display="block"
+					}else{
+						resArray[i].style.display="none"
+					}
+					i = i + 1
+				{% endfor %}
+			}
+		</script>
+		<!-- Main -->
+		
 
+			<section class="wrapper style1">
+				<div class="container">
+					<div class="row double">
+						<div class="4u">
+							<div id="sidebar">
 
-<section class="wrapper style1">
+								<!-- Sidebar -->
+									
+									<section>
+										<h3>Links</h3>
+										{% for resource in resources %}
+											{% if resource.type == 'link' %}
+												<ul><a href="javascript:hideshow(document.getElementById('{{resource.key.id()}}'))">{{resource.title}}</a></ul>
+											{% endif %}
+										{% endfor %}
+										
+										<h3>Locations</h3>
+										{% for resource in resources %}
+											{% if resource.type == 'location' %}
+												<ul><a href="javascript:hideshow(document.getElementById('{{resource.key.id()}}'))">{{resource.title}}</a></ul>
+											{% endif %}
+										{% endfor %}
+									</section>
+						
+							</div>
+						</div>
+
+						<div class="8u skel-cell-important">
+							<div id="content">
+
+								<!-- Content -->
+												
+								{% for resource in resources %}
+									{% if resource.type == 'link' %}
+											<article id="{{resource.key.id()}}" style="display: none;">
+										
+												<form class="cmxform" id="resForm{{resource.key.id()}}" method="post" action="/adminResources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
+													<div class="8u skel-cell-important">
+													 <fieldset>
+															<div class="12u">
+																
+																  <label for="resTitle">Link Title</label>
+																  <input id="resTitle" name="resTitle" type="text" value="{{resource.title}}" required/>
+																
+															</div>
+															<div class="12u">
+																
+																  <label for="resAddress">Link Address</label>
+																  <input id="resAddress" name="resAddress" type="text" value="{{resource.linkOrAddress}}" required/>
+																
+															</div>
+															<div class="12u">
+																
+																  <label for="resDesc">Link Description</label>
+																  <textarea  id="resDesc" name="resDesc" form="resForm{{resource.key.id()}}">{{resource.desc}}</textarea>
+																
+															</div>
+															<input type="hidden" name="resType" value="{{resource.type}}" />
+															<input type="hidden" name="resID" value="{{resource.key.id()}}" />
+															<input class="submit" type="submit" name="Update" value="Update"/>
+															<input class="submit" type="submit" name="Delete" value="Delete"/>
+															
+													  </fieldset>
+													
+												</form>			
+									
+										</article>
+									{% endif %}
+								{% endfor %}
+								
+								{% for resource in resources %}
+									{% if resource.type == 'location' %}
+									<article id="{{resource.key.id()}}" style="display: none;">
+										<form class="cmxform" id="resForm{{resource.key.id()}}" method="post" action="/adminResources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
+											<div class="8u skel-cell-important">
+											 <fieldset>
+													<div class="12u">
+														
+														  <label for="resTitle">Location Title</label>
+														  <input id="resTitle" name="resTitle" type="text" value="{{resource.title}}" required/>
+														
+													</div>
+													<div class="12u">
+														
+														  <label for="resAddress">Location Address</label>
+														  <input id="resAddress" name="resAddress" type="text" value="{{resource.linkOrAddress}}" required/>
+														
+													</div>
+													<div class="12u">
+														
+														  <label for="resDesc">Location Description</label>
+														  <textarea  id="resDesc" name="resDesc" form="resForm{{resource.key.id()}}">{{resource.desc}}</textarea>
+														
+													</div>
+													<input type="hidden" name="resType" value="{{resource.type}}" />
+													<input type="hidden" name="resID" value="{{resource.key.id()}}" />
+													<input class="submit" type="submit" name="Update" value="Update"/>
+													<input class="submit" type="submit" name="Delete" value="Delete"/>
+													
+											  </fieldset>
+											
+										</form>	
+									</article>
+											
+									{% endif %}
+									
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
 <div class="container">
-<div id="content">
-
-<!-- Content -->
- 
-<h2 style="text-align:center">Resources</h2>
-	
-	
-<input type="submit" id="resourceSaveTable"></input>
-<button id="btnAddResRow">New</button>
-<table id="resourceTable" class="display" cellspacing="0" width="100%">
-        <thead>
+<form class="cmxform" id="newResourceForm" method="post" action="/adminResources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
+		<div>
+		 <fieldset>
+		 
+			<legend>Add a new resource</legend>
 			
-            <tr>
-				<th>Type</th>
-				<th>Title</th>
-				<th>Link or Address</th>
-				<th>Desc</th>
-				<th>Options</th>	
-			</tr>
-        </thead>
-		<tbody>
-		{% for resource in resources %}
-
-		<tr>
-			<td>{{resource.type}}</td>
-			<td>{{resource.title}}</td>
-			<td>{{resource.linkOrAddress}}</td>
-			<td>{{resource.desc}}</td>
-			<td><button class='btnEditRes'value='Edit'>Edit</button></td>
+				<div class="12u">
+					
+					 <label for="resType">Resource Type</label>
+					 <select id="resType" name="resType" size="1" required>
+					  <option value="">Select a type</option>
+					  
+					  <option value="link">link</option>
+					  <option value="location">location</option>
+				
+					</select>
+					
+				</div>
 			
-		</tr>
-		{% endfor %}
-		</tbody>
-    </table>
-
-<style>
- 
- 
-th,tr { height: 40px; text-align:center  } 
-th {font-size:100%; font-weight: bold;background-color: #fff; background-color:#30C4DA;} td { font-size:70%; white-space:pre } img{position: relative;
-    right: -30%;
-    width: 400px;}
- 
-</style>
+				<div class="12u">
+					
+					  <label for="resTitle">Title</label>
+					  <input id="resTitle" name="resTitle" type="text" required/>
+					
+				</div>
+				<div class="12u">
+					
+					  <label for="resAddress">Resource Address</label>
+					  <input id="resAddress" name="resAddress" type="text" required/>
+					
+				</div>
+				<div class="12u">
+					
+					  <label for="resDesc">Resource Description</label>
+					  <textarea  id="resDesc" name="resDesc" form="newResourceForm"></textarea>
+					
+				</div>
+				<input type="hidden" name="resID" value="000" />
+				 <input class="submit" type="submit" value="Add"/>
+				
+		  </fieldset>
+		
+	</form>
 </div>
-</div>
-</section>
-<script>
-</script>
- 
+		
 
 {% endblock %}

@@ -98,8 +98,11 @@
 								<section class="6u">
 									<h3>Links</h3>
 									<ul class="links">
-										<li><a href="http://www.veryfineshoes.com/">Very Fine Dancesport Shoes</a></li>
-										<li><a >American Classic</a></li>
+										{% for resource in resources %}
+											{% if resource.type == 'link' %}
+												<ul><a href="{{resource.linkOrAddress}}">{{resource.title}}</a></ul>
+											{% endif %}
+										{% endfor %}
 
 									</ul>
 								</section>
@@ -120,26 +123,7 @@
 						</div>
 					</div>
 				</div>
-
-				
-				
-				
-				
-				<!-- Icons
-					<ul class="icons">
-						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-						<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
-						<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
-					</ul>
-
-				-->	
-					
-					
-					
-					
-					
+								
 				
 
 		</body>

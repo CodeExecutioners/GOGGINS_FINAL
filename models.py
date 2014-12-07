@@ -441,13 +441,12 @@ class Users(ndb.Model):
 			logging.error('loginProcess failed')
 			return loginSuccess
 		
-
-class ResourceText(ndb.Model):
+			
+class Resource(ndb.Model):
 	type = ndb.StringProperty()
 	title = ndb.StringProperty()
 	linkOrAddress = ndb.StringProperty()
-	desc = ndb.TextProperty()
-	
+	desc = ndb.StringProperty()
 	
 	@classmethod
 	def getAllResources(self):
@@ -473,72 +472,35 @@ class ResourceText(ndb.Model):
 	@classmethod
 	def insertResource(self, type, title, linkOrAddress, desc):
 		try:
-			
-			text = db.Text(desc)
-			logging.debug("made text object")
-			resource = self(type = type, title = title, linkOrAddress = linkOrAddress, desc = text)
+			resource = self(type = type, title = title, linkOrAddress = linkOrAddress, desc = desc)
 			resource.put()
 			logging.debug('insertResource success')
 		except:
 			logging.error('insertResource failed')
 	
-	
+
 	@classmethod
-	def getNChildren(self, desc):
-		nchildren = (math.floor((len(desc)) / 500.0))
-		return nchildren
-	
-	#insert
-	@classmethod
-	def updateResourceDescByID(self, id, desc):
-			
+	def updateResourceByID(self, id, type, title, linkOrAddress, desc):
+			logging.debug('updatingResource')
 			
 			try:
+			
 				if(id != 'None'):
-					logging.debug('updateResourceDescByID started')
-					logging.debug(id)
-					logging.debug(int(id))
-					logging.debug(desc)
-					updated_resource = ResourceText.get_by_id(int(id))
-					
+					updated_resource = Resource.get_by_id(int(id))
+					logging.debug(updated_resource)
+				
 					if(updated_resource != None):
-						logging.debug(updated_resource)
-						
-						
-						#logging.debug("Desc size: " +str(len(desc)))
-						#logging.debug("N children: " + str(nchildren))
-						logging.debug('Updating record')
-						updated_resource.desc = db.Text(desc)
+						updated_resource.title =title
+						updated_resource.type = type
+						updated_resource.linkOrAddress = linkOrAddress
+						updated_resource.desc = desc
 						updated_resource.put()
-						logging.debug('updateResourceDescByID success')
-					
-			except:
-				logging.error('updateResourceDescByID failed')
-		
-
-	
-	
-
-	#insert
-	@classmethod
-	def updateResourceByID(self, type, title, linkOrAddress, desc):
-			try:
-				resource_key = ndb.Key(self, (type+title))
-				logging.debug(resource_key)
-				updated_resource = resource_key.get()
-				if(updated_resource != None):
-					logging.debug('Updating record')
-					updated_resource.type = type
-					updated_resource.title = title
-					updated_resource.linkOrAddress = linkOrAddress
-					updated_resource.desc = desc
-					updated_resource.put()
-					logging.debug('updateResource success')
+						logging.debug('updateResource success')
 				else:
 					logging.debug('Inserting new record')
 					self.insertResource(type, title, linkOrAddress, desc)
 			except:
-				logging.error('updateResource failed')	
+				logging.error('updateResource failed')
 		
 	#delete
 	@classmethod
@@ -550,5 +512,14 @@ class ResourceText(ndb.Model):
 		except:
 			logging.error('deleteAllResources failed')
 						
+	@classmethod	
+	def deleteResourceByID(self, id):
+			try:
 			
+				if(id != 'None'):
+					delete_resource = Resource.get_by_id(int(id))
+					delete_resource.key.delete()
+					logging.debug('deleteResourceByID success')
+			except:
+				logging.error('deleteResourceByID failed')		
 			

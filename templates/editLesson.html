@@ -6,14 +6,10 @@
 				<li>
 				<label for="editlessonsType">Type</label>
 					<span><select id="editlessonsType" name="editlessonsType" size="1" required>
-						
-						{% for type in types %}
-							{% if lesson.type_key.id() == type.key.id() %}
-								<option value="{{type.key.id()}}" selected>{{type.typename}}</option>
-							{% else %}
-								<option value="{{type.key.id()}}">{{type.typename}}</option>
-							{% endif %}
-						{% endfor %}
+						<option value="{{lesson.type}}">Select a type</option>
+						<option value="Private & Group Lessons (by appointment)">Private & Group Lessons (by appointment)</option>
+						<option value="Group Lessons/Dances Drop-In">Group Lessons/Dances Drop-In</option>
+						<option value="Group Lessons (4-6 week sessions)">Group Lessons (4-6 week sessions)</option>
 					</select>			
 					</span>
 				</li>
@@ -34,7 +30,7 @@
 					<input  id="editlessonInputCost" name="editlessonsInputCost" type="text" value="{{lesson.cost}}"required/>
 				</li>
 				<li><label for="editlessonsInputDetailsText">Details</label>
-					<textarea id="editlessonInputDetailsText" name="editlessonsInputDetailsText" value="{{lesson.details}}" rows="5" required/>
+					<textarea id="editlessonInputDetailsText" name="editlessonsInputDetailsText" value="{{lesson.details}}" rows="5">
 					</textarea>
 				</li>
 				</ul>

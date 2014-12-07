@@ -10,14 +10,14 @@
 	</header>
 	<script>
 		function proceed(){
-			if(confirm("Place order for gift certificate?")==false){
+			if(confirm("Do you want to proceed with th submission?")==false){
 				return false;
 			}
 		}
 	</script>
 		<div id="giftContainer" class="container">
 			<!-- Content -->
-					<form class="cmxform" id="giftForm" method="post" action="/gift" onsubmit="return proceed()">
+					<form class="cmxform" id="giftForm" method="post" action="/giftemail" onsubmit="return proceed()">
 						<div class="row half collapse-at-2">
 						 <fieldset> 
 							<legend>Please provide your name, email address</legend>

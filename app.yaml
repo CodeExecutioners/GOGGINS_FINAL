@@ -1,5 +1,5 @@
-application: test-dancingoggin
-version: final
+application: coherent-flame-749
+version: sprint2
 runtime: python27
 api_version: 1
 threadsafe: yes

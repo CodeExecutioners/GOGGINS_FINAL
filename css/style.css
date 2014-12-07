@@ -9,6 +9,10 @@
 
 /* Basic */
 
+	body,
+	#skel-layers-wrapper {
+		background: #f7f7f7 url("images/bg01.png");
+	}
 
 	body.is-loading * {
 		-moz-transition: none !important;
@@ -756,8 +760,8 @@
 		}
 
 		.wrapper.style2 {
-			background-color: ##37C0FB;
-			
+			background-color: #fff;
+			background-image: url("images/bg02.png"), url("images/bg03.png"), url("images/bg01.png");
 			background-position: top left,						bottom left,					top left;
 			background-size: 100% 6em,						100% 6em,						auto;
 			background-repeat: no-repeat,						no-repeat,						repeat;
@@ -765,6 +769,11 @@
 
 		.wrapper.style3 {
 			background-color: #37c0fb;
+			background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.15)), url("images/bg01.png");
+			background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.15)), url("images/bg01.png");
+			background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.15)), url("images/bg01.png");
+			background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.15)), url("images/bg01.png");
+			background-image: linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.15)), url("images/bg01.png");
 			color: white;
 		}
 
@@ -781,7 +790,7 @@
 
 	#cta {
 		text-align: center;
-		padding: 0;
+		padding: 3.5em 0;
 	}
 
 		#cta header h2 {
@@ -798,10 +807,7 @@
 /* Footer */
 
 	#footer {
-		padding: 0;
-		margin-top:-26px;
-		background-color:#333;
-		color:#c0c0c0;
+		padding: 4em 0 8em 0;
 	}
 
 		#footer a {
@@ -815,7 +821,7 @@
 			}
 
 		#footer .container {
-			margin-bottom: 0em;
+			margin-bottom: 4em;
 		}
 
 		#footer .icons {
@@ -857,15 +863,4 @@ width:4%;
 }
 .options{
 width:6%;
-}
-
-#dancesHome{
-background:#37C0FB;
-padding:0;
-
-}
-
-#danceContainer{
-	margin-top:-2em;
-	
 }
