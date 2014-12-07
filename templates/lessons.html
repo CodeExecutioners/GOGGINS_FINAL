@@ -158,7 +158,9 @@ td.left{
 			{% for type in types %}
 			<li>
 			<a href="#tabs-{{type.key.id()}}">{{type.typename}}</a>
+			{% if user %}
 			<button style="background-color:rgb(229, 121, 121)" id="id{{type.key.id()}}"type="button" class="deleteType">X	</button>
+			{% endif %}
 			</li>
 			{% endfor %}
 			
@@ -189,6 +191,7 @@ td.left{
 				   
 				   {% for lesson in lessons %}
 						{% if (lesson.city_key == city.key) and (lesson.type_key == type.key)%}
+							{% if user %}
 							<div>
 							<button id ="id{{lesson.key.id()}}"type="button" class="editLesson btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
 											EDIT
@@ -197,6 +200,7 @@ td.left{
 											DELETE
 							</button>
 							</div>
+							{% endif %}
 							<table class="table table-striped table-bordered table-hover" >
 								
 							
