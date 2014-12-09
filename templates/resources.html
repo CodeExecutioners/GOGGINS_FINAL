@@ -1,7 +1,5 @@
 {% extends "templates/_base.htm" %}
 {% block bodycontent %}
-
-<link rel="stylesheet" href="css/resources.css" />
 		
 		<script type="text/javascript">
 			function hideshow(which){
@@ -25,13 +23,13 @@
 					i = i + 1
 				{% endfor %}
 			}
-			
-			function autoGrow (oField) {
-				if (oField.scrollHeight > oField.clientHeight) {
-				oField.style.height = oField.scrollHeight + "px";
-				}G
-			}
 		</script>
+	<style type="text/css">
+		textarea {
+			height: 193px;
+			width: 773px;
+		}
+	</style>
 		<!-- Main -->
 		
 
@@ -92,7 +90,7 @@
 										<a href="{{resource.linkOrAddress}}">
 											{{resource.linkOrAddress}}
 										</a>
-										<textarea readonly> {{resource.desc}} </textarea>
+										<textarea id="resDesc" readonly> {{resource.desc}} </textarea>
 									</article>
 									{% endif %}
 								{% endfor %}
@@ -103,7 +101,7 @@
 										<header>
 											<h2>{{resource.title}}</h2>
 										</header>
-										<textarea readonly> {{resource.desc}} </textarea>
+										<textarea id="resDesc" readonly> {{resource.desc}} </textarea>
 									
 									<form action="http://maps.google.com/maps" method="get" target="_blank">
 													<h1>Get Directions</h1>
@@ -125,7 +123,7 @@
 										{% if resource.type == 'link' %}
 												<article id="{{resource.key.id()}}" style="display: none;">
 											
-													<form class="cmxform" id="resForm{{resource.key.id()}}" method="post" action="/adminResources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
+													<form class="cmxform" id="resForm{{resource.key.id()}}" method="post" action="/resources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
 														<div class="8u skel-cell-important">
 														 <fieldset>
 																<div class="12u">
@@ -137,7 +135,7 @@
 																<div class="12u">
 																	
 																	  <label for="resAddress">Link Address</label>
-																	  <input id="resAddress" name="resAddress" type="text" value="{{resource.linkOrAddress}}" required/>
+																	  <input id="resAddress" name="resAddress" type="text" value="{{resource.linkOrAddress}}"/>
 																	
 																</div>
 																<div class="12u">
@@ -162,7 +160,7 @@
 									{% for resource in resources %}
 										{% if resource.type == 'location' %}
 										<article id="{{resource.key.id()}}" style="display: none;">
-											<form class="cmxform" id="resForm{{resource.key.id()}}" method="post" action="/adminResources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
+											<form class="cmxform" id="resForm{{resource.key.id()}}" method="post" action="/resources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
 												<div class="8u skel-cell-important">
 												 <fieldset>
 														<div class="12u">
@@ -174,7 +172,7 @@
 														<div class="12u">
 															
 															  <label for="resAddress">Location Address</label>
-															  <input id="resAddress" name="resAddress" type="text" value="{{resource.linkOrAddress}}" required/>
+															  <input id="resAddress" name="resAddress" type="text" value="{{resource.linkOrAddress}}"/>
 															
 														</div>
 														<div class="12u">
@@ -201,10 +199,10 @@
 						</div>
 					{% if user %}
 						<div class="container">
-							<form class="cmxform" id="newResourceForm" method="post" action="/adminResources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
+							<form class="cmxform" id="newResourceForm" method="post" action="/resources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
 
 									 <fieldset>		 
-										<legend>Add a new resource</legend>
+										<h2>Add a new resource</h2>
 										
 											<div class="12u">
 												
@@ -228,7 +226,7 @@
 											<div class="12u">
 												
 												  <label for="resAddress">Resource Address</label>
-												  <input id="resAddress" name="resAddress" type="text" required/>
+												  <input id="resAddress" name="resAddress" type="text"/>
 												
 											</div>
 											<div class="12u">

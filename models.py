@@ -500,7 +500,7 @@ class Resource(ndb.Model):
 	type = ndb.StringProperty()
 	title = ndb.StringProperty()
 	linkOrAddress = ndb.StringProperty()
-	desc = ndb.StringProperty()
+	desc = ndb.TextProperty()
 	
 	@classmethod
 	def getAllResources(self):
@@ -547,7 +547,8 @@ class Resource(ndb.Model):
 						updated_resource.title =title
 						updated_resource.type = type
 						updated_resource.linkOrAddress = linkOrAddress
-						updated_resource.desc = desc
+						descText = db.Text(desc)
+						updated_resource.desc = descText
 						updated_resource.put()
 						logging.debug('updateResource success')
 				else:
