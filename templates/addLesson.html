@@ -4,33 +4,37 @@
 		<input  type="hidden" id="addlessonId" name="addlessonId" type="text" value="None" required/>
 			 <ul class="nav nav-list">
 				<li>
-				<label for="lessonsType">Type</label>
-					<span><select id="lessonsType" name="lessonsType" size="1" required>
-						{% for type in types %}
-						<option value="{{type.key.id()}}">{{type.typename}}</option>
-						{% endfor %}
-					</select>			
-					</span>
+					<label for="lessonsType">Type:</label>
+					<input  id="lessonsInputType" name="lessonsInputNewType" placeholder="ex: Private, Group, Events, etc." type="text" value="" required/>
+		
 				</li>
+				
+				
 				<li>
-					<label for="lessonsInputCity">City</label>
+					<label for="lessonsInputCity">City:</label>
 					<input  id="lessonInputCity" name="lessonsInputCity" type="text" required/>
 				</li>
-				<li><label for="lessonsInputLocation">Location</label>
-					<input  id="lessonsInputLocation" name="lessonsInputLocation" type="text" required/>
+				<li><label for="lessonsInputLocation">Address:</label>
+					<input  id="lessonsInputLocation" name="lessonsInputLocation" placeholder="Provide full address (location, street, city, state, zip)"type="text" required/>
 				</li>
-				<li><label for="lessonsInputDate">Date</label>
-					<input  id="lessonInputDate" name="lessonsInputDate" type="text" required/>
+				<li><label for="lessonsInputDate">Date:</label>
+					<input  id="lessonInputDate" name="lessonsInputDate" placeholder="MM/DD/YYYY and/or Day of Week (Sunday-Saturday)"type="text" required/>
 				</li>
-				<li><label for="lessonsInputTime">Time</label>
-					<input  id="lessonInputTime" name="lessonsInputTime" type="text" required/>
+				<li><label for="lessonsInputTime">Time:</label>
+					<input  id="lessonInputTime" name="lessonsInputTime" placeholder="ex: 7:00 PM - 8:00 PM"type="text" required/>
 				</li>
-				<li><label for="lessonsInputCost">Cost</label>
-					<input  id="lessonInputCost" name="lessonsInputCost" type="text" required/>
+				<li><label for="lessonsInputCost">Cost ($):</label>
+					<input  id="lessonInputCost" name="lessonsInputCost" placeholder="ex: 49/person" type="text" required/>
 				</li>
-				<li><label for="lessonsInputDetailsText">Details</label>
-					<textarea id="lessonInputDetailsText" name="lessonsInputDetailsText" rows="5" required/>
-					</textarea>
+				<li>
+					<label for="lessonsInputDetailsText">Details:</label>
+					<input  id="lessonInputDetailsText" name="lessonsInputDetailsText" placeholder="ex: List of dances or lesson's information" type="text" required/>
+					
+				<li><label for="lessonsInputLink">Link:</label>
+				
+					<input  id="lessonInputLink" name="lessonsInputLink" placeholder="ex: http://www.dancingoggin.com" type="text"/>
+				</li>	
+					
 				</li>
 				</ul>
 				

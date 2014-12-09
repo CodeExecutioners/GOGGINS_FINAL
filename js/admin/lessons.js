@@ -278,7 +278,7 @@ $(function(){ //Add, Save, Edit and Delete functions code
 		
 		html  = $(".modal-body").html('');
 		//$(".modal-footer").html("<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button><input type='submit' id='submitAddLesson' class='btn btn-primary' value='Add Lesson'></button>");
-	
+		
 		$.ajax({
              type: 'GET',
 			 url:'/addLesson',
@@ -381,6 +381,7 @@ $(function(){ //Add, Save, Edit and Delete functions code
 	$("#submitLesson").on("click", function(event){
 			var form = $(".formLesson");
 			if(form.valid()){
+			
 			var data = JSON.stringify(form.serializeArray())
 			//alert(data);
 			var path = '/updateLesson';
@@ -404,6 +405,68 @@ $(function(){ //Add, Save, Edit and Delete functions code
 			return false;
 			}
 			});
+	
+	
+	//on click for button
+	
+	$(".deleteType").on("click", function(event){
+		//alert("deleting Lesson");
+		event.preventDefault();
+
+		var typeID = $(this).attr("id").substring(2);
+		//alert("LessonID: " + lessonID);
+		
+	
+		
+		$.ajax({
+             type: 'POST',
+			 url:'/deleteType',
+             data: typeID,
+             success: function(response) {
+				//alert("Success" + response)
+				location.reload();
+             },error: function(response){
+				alert("Error Deleting Type");
+			 
+			}
+			
+			
+		});
+		
+		event.stopImmediatePropagation();
+		return false
+	});
+	
+	
+	$(".deleteCity").on("click", function(event){
+		//alert("deleting Lesson");
+		event.preventDefault();
+
+		var cityID = $(this).attr("id").substring(2);
+		//alert("LessonID: " + lessonID);
+		
+	
+		
+		$.ajax({
+             type: 'POST',
+			 url:'/deleteCity',
+             data: cityID,
+             success: function(response) {
+				//alert("Success" + response)
+				location.reload();
+             },error: function(response){
+				alert("Error Deleting Type");
+			 
+			}
+			
+			
+		});
+		
+		event.stopImmediatePropagation();
+		return false
+	});
+	
+	  
 	
 	/*
 	

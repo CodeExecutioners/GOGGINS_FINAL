@@ -1,14 +1,15 @@
-
 {% extends "templates/_base.htm" %}
 {% block bodycontent %}
+
+<link rel="stylesheet" href="css/resources.css" />
 		
 		<script type="text/javascript">
 			function hideshow(which){
-				alert('hideshow')
+			
 				var resArray = [];
 				document.getElementById('link1').style.display="none"
 				
-				
+			
 				{% for resource in resources %}
 					res = document.getElementById('{{resource.key.id()}}')
 					resArray.push(res)
@@ -24,6 +25,12 @@
 					i = i + 1
 				{% endfor %}
 			}
+			
+			function autoGrow (oField) {
+				if (oField.scrollHeight > oField.clientHeight) {
+				oField.style.height = oField.scrollHeight + "px";
+				}G
+			}
 		</script>
 		<!-- Main -->
 		
@@ -31,7 +38,7 @@
 			<section class="wrapper style1">
 				<div class="container">
 					<div class="row double">
-						<div class="3u">
+						<div class="4u">
 							<div id="sidebar">
 
 								<!-- Sidebar -->
@@ -57,7 +64,7 @@
 							</div>
 						</div>
 
-						<div class="9u skel-cell-important">
+						<div class="8u skel-cell-important">
 							<div id="content">
 
 								<!-- Content -->
@@ -70,45 +77,22 @@
 										</p>
 								</article>
 								
+	
 								
 								
+							{% if not user %}
 								{% for resource in resources %}
 									{% if resource.type == 'link' %}
-									<!--make it editable by id-->
 									<article id="{{resource.key.id()}}" style="display: none;">
 										<header>
-											
+											<a href="{{resource.linkOrAddress}}">
 											<h2>{{resource.title}}</h2>
-											
+											</a>
 										</header>
 										<a href="{{resource.linkOrAddress}}">
 											{{resource.linkOrAddress}}
 										</a>
-											<p>
-											<input class="createResourceEditor" type="button" value="Create Resource Editor">
-											<input class="removeResourceEditor"  type="button" value="Remove Resource Editor">
-											</p>
-											
-											
-											<div id="editor-{{resource.key.id()}}" class="editable">
-														
-														{{resource.desc|safe}}
-											</div>
-											<!-- This div will hold the editor. -->
-											<!--
-											<div id="editorResource">
-												
-												<div id="contentsResource" style="display: none">
-													
-													
-													<div id="editorContentsResource">
-														
-														{{resource.desc}}
-													</div>
-												</div>
-											</div>
-											-->
-										
+										<textarea readonly> {{resource.desc}} </textarea>
 									</article>
 									{% endif %}
 								{% endfor %}
@@ -119,7 +103,7 @@
 										<header>
 											<h2>{{resource.title}}</h2>
 										</header>
-										{{resource.desc}}
+										<textarea readonly> {{resource.desc}} </textarea>
 									
 									<form action="http://maps.google.com/maps" method="get" target="_blank">
 													<h1>Get Directions</h1>
@@ -132,71 +116,138 @@
 									{% endif %}
 									
 								{% endfor %}
+							{% endif %}	
 								
-								
-								
-								<!--
-									<article id="link1" style="display: none;">
-										<header>
-											<a href="https://www.veryfineshoes.com">
-											<h2>Very Fine Dance Shoes</h2>
-											</a>
-										</header>
-										<a href="https://www.veryfineshoes.com">
-											www.veryfineshoes.com
-										</a>
-										<p>Very Fine Dancesport Shoes was founded in June 1998. 
-										We are OEM dance footwear manufacturer & supplier and we also carry our own house brands 
-										where the emphasis is on high-end design dance shoes using premium materials. Since our beginning,
-										the principle elements of our company have been focused on our service and delivery of quality products
-										with affordable prices. As a result, Very Fine has successfully became one of the largest dance shoes 
-										supplier in the US. Our relentless pursuit for perfection has made our dance shoes the first choice of
-										many professional dancers.
-										</p>
-									</article>
-									<article id="link2" style="display: none;">
-										<header>
-											<h2>American Classic Dance Shoes</h2>
-										</header>
-										<p></p>
-									</article>
-									<article id="link3" style="display: none;">
-										<header>
-											<a href="http://www.dance.spinstep.com/Main/CVDC">
-											<h2>Chippewa Valley Dance Club</h2>
-											</a>
-										</header>
-										<a href="http://www.dance.spinstep.com/Main/CVDC">
-											www.dance.spinstep.com/Main/CVDC
-										</a>
-										<p>The Chippewa Valley Dance Club (CVDC) is a non-profit ballroom dance club that will be sponsoring
-										five Saturday night dances this year. Also, five Sunday afternoon dances will be included this season 
-										which feature music presented by Goggin Ballroom Dancing. Dances are held at the St Mary's Community Center,
-										1812 Lynn Av, Altoona, WI.</p>
-										
-										<p>CVDC Membership Membership dues are $89 per person, which entitles you to attend all ten Saturday 
-										& Sunday dances. Nonmembers pay $16 per person at the door on Saturdays, Sunday dances are $10 per person.<p>
-										<p>Members enjoy:</p>
-										<ul>
-											<li>A $41 discount compared to the non-member fees </li>
-											<li>ABetter bands, because your advance payment helps us book good bands in advance</li>
-											<li>A stronger dance club: when you join us, all of your membership dues go to the dance club.</li>
-										</ul>
-												<form action="http://maps.google.com/maps" method="get" target="_blank">
-													<h1>Get Directions</h1>
-													<p>Enter your starting address:</p>
-													<input type="text" name="saddr" />
-													<input type="hidden" name="daddr" value="1812 Lynn Av, Altoona, WI" />
-													<input type="submit" value="Get Directions" />
-												</form>
-									</article>
-									-->
 							</div>
+							
+							{% if user %}
+								{% for resource in resources %}
+										{% if resource.type == 'link' %}
+												<article id="{{resource.key.id()}}" style="display: none;">
+											
+													<form class="cmxform" id="resForm{{resource.key.id()}}" method="post" action="/adminResources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
+														<div class="8u skel-cell-important">
+														 <fieldset>
+																<div class="12u">
+																	
+																	  <label for="resTitle">Link Title</label>
+																	  <input id="resTitle" name="resTitle" type="text" value="{{resource.title}}" required/>
+																	
+																</div>
+																<div class="12u">
+																	
+																	  <label for="resAddress">Link Address</label>
+																	  <input id="resAddress" name="resAddress" type="text" value="{{resource.linkOrAddress}}" required/>
+																	
+																</div>
+																<div class="12u">
+																	
+																	  <label for="resDesc">Link Description</label>
+																	  <textarea  id="resDesc" name="resDesc" form="resForm{{resource.key.id()}}">{{resource.desc}}</textarea>
+																	
+																</div>
+																<input type="hidden" name="resType" value="{{resource.type}}" />
+																<input type="hidden" name="resID" value="{{resource.key.id()}}" />
+																<input class="submit" type="submit" name="Update" value="Update"/>
+																<input class="submit" type="submit" name="Delete" value="Delete"/>
+																
+														  </fieldset>
+														
+													</form>			
+										
+											</article>
+										{% endif %}
+									{% endfor %}
+									
+									{% for resource in resources %}
+										{% if resource.type == 'location' %}
+										<article id="{{resource.key.id()}}" style="display: none;">
+											<form class="cmxform" id="resForm{{resource.key.id()}}" method="post" action="/adminResources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
+												<div class="8u skel-cell-important">
+												 <fieldset>
+														<div class="12u">
+															
+															  <label for="resTitle">Location Title</label>
+															  <input id="resTitle" name="resTitle" type="text" value="{{resource.title}}" required/>
+															
+														</div>
+														<div class="12u">
+															
+															  <label for="resAddress">Location Address</label>
+															  <input id="resAddress" name="resAddress" type="text" value="{{resource.linkOrAddress}}" required/>
+															
+														</div>
+														<div class="12u">
+															
+															  <label for="resDesc">Location Description</label>
+															  <textarea  id="resDesc" name="resDesc" form="resForm{{resource.key.id()}}">{{resource.desc}}</textarea>
+															
+														</div>
+														<input type="hidden" name="resType" value="{{resource.type}}" />
+														<input type="hidden" name="resID" value="{{resource.key.id()}}" />
+														<input class="submit" type="submit" name="Update" value="Update"/>
+														<input class="submit" type="submit" name="Delete" value="Delete"/>
+														
+												  </fieldset>
+												
+											</form>	
+										</article>
+												
+										{% endif %}
+										
+									{% endfor %}
+								{% endif %}
+							
 						</div>
+					{% if user %}
+						<div class="container">
+							<form class="cmxform" id="newResourceForm" method="post" action="/adminResources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
+
+									 <fieldset>		 
+										<legend>Add a new resource</legend>
+										
+											<div class="12u">
+												
+												 <label for="resType">Resource Type</label>
+												 <select id="resType" name="resType" size="1" required>
+												  <option value="">Select a type</option>
+												  
+												  <option value="link">link</option>
+												  <option value="location">location</option>
+											
+												</select>
+												
+											</div>
+										
+											<div class="12u">
+												
+												  <label for="resTitle">Title</label>
+												  <input id="resTitle" name="resTitle" type="text" required/>
+												
+											</div>
+											<div class="12u">
+												
+												  <label for="resAddress">Resource Address</label>
+												  <input id="resAddress" name="resAddress" type="text" required/>
+												
+											</div>
+											<div class="12u">
+												
+												  <label for="resDesc">Resource Description</label>
+												  <textarea  id="resDesc" name="resDesc" form="newResourceForm"></textarea>
+												
+											</div>
+											<input type="hidden" name="resID" value="000" />
+											 <input class="submit" type="submit" value="Add"/>
+											
+									  </fieldset>
+									
+								</form>
+						</div>
+					{% endif %}
+						
 					</div>
 				</div>
 			</section>			
-
-		
 
 {% endblock %}

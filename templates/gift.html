@@ -16,50 +16,53 @@
 		}
 	</script>
 		<div id="giftContainer" class="container">
+		
+			
 			<!-- Content -->
+			<legend>Please provide your name, email address</legend>
 					<form class="cmxform" id="giftForm" method="post" action="/gift" onsubmit="return proceed()">
-						<div class="row half collapse-at-2">
-						 <fieldset> 
-							<legend>Please provide your name, email address</legend>
-								<div class="12u">
+						<div class="row">
+						
+							
+								<div class="6u">
 									
-									  <label for="giftInputName">Name</label>
+									  <label for="giftInputName">Name:</label>
 									  <input id="giftInputName" name="giftInputName" type="text" required/>
 									
 								</div>
-								<div class="12u">
+								<div class="6u">
 									
-									  <label for="giftInputRecipientName">Recipient's Name</label>
+									  <label for="giftInputRecipientName">Recipient's Name:</label>
 									  <input id="giftInputRecipientName" name="giftInputRecipientName" type="text" required/>
 									
 								</div>
 								
-								<div class="12u">
+								<div class="6u">
 									
-									  <label for="giftInputEmail">E-Mail (required)</label>
+									  <label for="giftInputEmail">E-Mail:</label>
 									  <input id="giftInputEmail" type="email" name="giftInputEmail" required/>
 									
 								</div>
-								<div class="12u">
+								<div class="6u">
 									
-									  <label for="giftInputPhone">Phone (required)</label>
+									  <label for="giftInputPhone">Phone:</label>
 									  <input id="giftInputPhone" type="text" name="giftInputPhone" required/>
 									
 								</div>
-								<div class="12u">
+								<div class="6u">
 									
-									  <label for="giftInputAddress">Address (required)</label>
+									  <label for="giftInputAddress">Street Address:</label>
 									  <input id="giftInputAddresss" type="text" name="giftInputAddress" required/>
 									
 								</div>
-								<div class="12u">
-									  <label for="giftInputCity">City</label>
+								<div class="6u">
+									  <label for="giftInputCity">City:</label>
 									  <input id="giftInputCity" type="text" name="giftInputCity" required/>
 									
 								</div>
-								<div class="12u">
+								<div class="6u">
 									
-									 <label for="giftInputState">State</label>
+									 <label for="giftInputState">State:</label>
 									 <select id="giftInputState" name="giftInputState" size="1" required>
 									  <option value="">Select a state</option>
 									
@@ -118,26 +121,31 @@
 									</select>
 									
 								</div>
-								<div class="12u">
+								<div class="3u">
 									
-									  <label for="giftInputZip">Zip Code (required)</label>
+									  <label for="giftInputZip">Zip Code:</label>
 									  <input id="giftInputZip" type="text" name="giftInputZip" required/>
 									
 								</div>
-								<div class="12u">
-									  <label for="giftInputAmount">Dollar Amount (required)</label>
-									  <input id="giftInputAmount" type="number" name="giftInputAmount" required/>
+								<div class="6u">
+									  <label for="giftInputAmount">Dollar Amount:</label>
+									  <input id="giftInputAmount" type="number" min="0" name="giftInputAmount" required/>
 									
 								</div>
-								 <input class="submit" type="submit" value="Order"/>
 								
-						  </fieldset>
+						</div>
+						</br>
 						
+						<center>
+							<div class="6u">
+							 <input class="submit" type="submit" value="Order"/>
+							</div>
+						
+						</center>
 					</form>
-					
+					</div>
 					<script>
 						
-								$('#giftForm').validate() // initialize the plugin
 								
 					</script>
 				

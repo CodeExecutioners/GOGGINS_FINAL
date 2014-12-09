@@ -7,6 +7,14 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 	
+class ContactForm(BaseHandler):
+	def get(self):
+		logging.debug("Contact Form GET")
+		template_values= {}
+		template = JINJA_ENVIRONMENT.get_template('templates/contact_form.html')
+		self.response.write(template.render(template_values))
+		
+
 class ContactPage(BaseHandler):
 	def get(self):
 		template_values ={}
@@ -17,28 +25,120 @@ class ContactPage(BaseHandler):
 		notification_address = "fisher.robert26@gmail.com"
 		sender_address = "<fisher.robert26@gmail.com>"
 		subject = self.request.get("inputSubject")
-		subject2 = "(Email from user Dancin goggin) Subject: "+subject
+		subject_for_goggins = subject
 		name=self.request.get("inputName")
 		phone=self.request.get("inputPhone")
 		user_address = self.request.get("inputEmail")
-		body = "\nName: "+name+"\nPhone: "+phone+"\nMessage: \n"+self.request.get("inputMessage")+"\nEmail: "+user_address
-		subject_confirmation = "Confirmation, mail received."
-		if subject == "Appointment":
-			body_confirmation = "\nYour request for an appointment was received succesfully and an administrator will get in touch with you to plan the appointment: \n\n This is what you sent:\n Subject: "+subject+""+body
+		message = self.request.get("inputMessage")
+		
+		
+		subject_confirmation = "Goggin Ballroom Dancing: Contact Request Confirmation."
 		if subject == "Shoes":
-			body = "\nName: "+name+"\nPhone: "+phone+"\nMessage: \n"+self.request.get("inputMessage")+"\nShoes size: "+self.request.get("size")+"\nGender: "+self.request.get("gender")+"\nEmail: "+user_address
-			body_confirmation = "\nYour request for shoes was received succesfully and an administrator will get in touch with you as soon as possible: \n\n This is what you sent:\n Subject: "+subject+""+body
+			size = self.request.get('size')
+			gender = self.request.get('gender')
+			clientbody = ("""
+Dear """+name+""",
+
+Thank you for contacting Goggin Ballroom Dancing.
+
+This is your contact request information:
+
+	Name: """+name+"""
+	Subject: """+subject+"""
+	Gender: """ + gender + """
+	Size: """ + size + """
+	Phone: """ + phone+"""
+	Email: """ + user_address+"""
+	Message: """ +message+ """
+
+We will contact you as soon as possible.
+
+Sincerely,
+
+Dave & Karen Goggin
+715.833.1879
+Email@DancinGoggin.com""")
+
+
+			gogginsBody = ("""
+Dear Dave & Karen,
+
+You have received a contact request:
+
+	Name: """+name+"""
+	Subject: """+subject+"""
+	Gender: """ + gender + """
+	Size: """ + size + """
+	Phone: """ + phone+"""
+	Email: """ + user_address+"""
+	Message: """ +message+ """
+
+A confirmation message has been sent to the contact's email.
+
+From,
+
+DancinGoggin.com
+""")
+
+
+
+
+
 		else:
-			body_confirmation = "\nYour email was received succesfully and an administrator will get in touch with you as soon as possible: \n\n This is what you sent:\n Subject: "+subject+""+body
-		mail.send_mail(sender_address, user_address, subject_confirmation, body_confirmation)
-		algo="assignacion"
-		mail.send_mail(sender_address, sender_address, subject2, body)
-		self.redirect('/success')
-			
+			clientbody = ("""
+Dear """+name+""",
+
+Thank you for contacting Goggin Ballroom Dancing.
+
+This is your contact request information:
+
+	Name: """+name+"""
+	Subject: """+subject+"""
+	Phone: """ + phone+"""
+	Email: """ + user_address+"""
+	Message: """ +message+ """
+
+We will contact you as soon as possible.
+
+Sincerely,
+
+Dave & Karen Goggin
+715.833.1879
+Email@DancinGoggin.com""")
+			gogginsBody = ("""
+Dear Dave & Karen,
+
+You have received a contact request:
+
+	Name: """+name+"""
+	Subject: """+subject+"""
+	Phone: """ + phone+"""
+	Email: """ + user_address+"""
+	Message: """ +message+ """
+	
+A confirmation message has been sent to the contact's email.
+
+From,
+
+DancinGoggin.com
+""")
+
+
+
+
+
+
+		#send message to client
+		mail.send_mail(sender_address, user_address, subject_confirmation, clientbody)
+		
+		#send mail to goggins
+		mail.send_mail(sender_address, sender_address, subject, gogginsBody)
+		self.redirect('/contact')
+	
 		
 config = {}
 config['webapp2_extras.sessions'] = {
     'secret_key': 'my-super-secret-key',
 }	
-app = webapp2.WSGIApplication([('/contact', ContactPage)],
+app = webapp2.WSGIApplication([('/contact', ContactPage),('/contactForm', ContactForm) ],
                               config = config, debug=True)

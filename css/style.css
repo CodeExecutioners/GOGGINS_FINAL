@@ -701,8 +701,8 @@
 /* Banner */
 
 	#banner {
-		background-image: url("../images/Europe.jpg");
-		background-position: 0% 32%;
+		background-image: url("../images/Cruise11.jpg");
+		background-position: -199% 16%;
 		background-size: cover;
 		height: 28em;
 		text-align: center;
@@ -869,3 +869,24 @@ padding:0;
 	margin-top:-2em;
 	
 }
+
+.lessonHeader{
+	background-color:#333;
+	text-align: center;
+	font-size: medium;
+	padding: 10px;
+	color: white;
+}
+.lessonHeaderTitle{
+	
+	font-size: x-large;
+
+}
+
+.radioButtonContact{
+margin-left: 10px;
+padding: 5px;
+margin-top: 1px \9;
+line-height: normal;
+}
+

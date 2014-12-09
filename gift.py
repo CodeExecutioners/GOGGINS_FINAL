@@ -13,10 +13,11 @@ class GiftPage(BaseHandler):
 		self.response.write(template.render(template_values))
 	def post(self):
 		#sender_address must be gmail"
-		sender_address = "fisher.robert26@gmail.com"
-		subject = "Gift Certificate"
+		sender_address = "<fisher.robert26@gmail.com>"
+		subject = "Goggin Ballroom Dancing: Gift Certificate"
 		name = self.request.get("giftInputName")
 		recipient = self.request.get("giftInputRecipientName")
+		phone = self.request.get("giftInputPhone")
 		email = self.request.get("giftInputEmail")
 		address = self.request.get("giftInputAddress")
 		city = self.request.get("giftInputCity")
@@ -28,13 +29,75 @@ class GiftPage(BaseHandler):
 			# prompt user to enter a valid address
 			self.redirect('/InvalidMail')
 		else:
-			body = name + " would like to place an order for a gift certificate in the amount of " + amount + "\n"
-			body += ("The gift certificate is for " + recipient + " and is to be sent to the address:\n")
-			body += ("\n" + email+ "\n" + city + " " + state + " " + zip)
-			logging.debug("Gift Email Body: " + body)
-			html = "<p>Test</p>"
-			mail.send_mail(sender_address, email, subject, body)
-			self.redirect('/success')
+			clientbody = ("""
+Dear """+name+""",
+
+Thank you for contacting Goggin Ballroom Dancing.
+
+This is your gift certificate order information:
+
+	Name: """+name+"""
+	Recipient's Name: """+recipient+"""
+	Phone: """ + phone+"""
+	Email: """ + email+"""
+	Street Address: """+address+"""
+	City: """ +city+"""
+	State: """+ state +"""
+	Zip Code: """ + zip + """
+	Dollar Amount: """ + amount +"""
+
+To receive your gift certificate, please send your check or money order to the following address:
+
+	Dave & Karen Goggin
+	1718 Delrae Ct
+	Eau Claire, WI 54703
+
+Once we recieve your mailed order, we will then send the gift certificate to you by mail as soon as possible.
+
+Sincerely,
+
+Dave & Karen Goggin
+715.833.1879
+Email@DancinGoggin.com""")
+
+
+			gogginsBody = ("""
+Dear Dave & Karen,
+
+You have received a gift certificate order:
+
+	Name: """+name+"""
+	Recipient's Name: """+recipient+"""
+	Phone: """ + phone+"""
+	Email: """ + email+"""
+	Street Address: """+address+"""
+	City: """ +city+"""
+	State: """+ state +"""
+	Zip Code: """ + zip + """
+	Dollar Amount: """ + amount +"""
+
+A confirmation message has been sent to the contact's email. The email has informed the contact to send a check or money order by mail to the following address:
+
+	Dave & Karen Goggin
+	1718 Delrae Ct
+	Eau Claire, WI 54703
+
+You should be expecting a mailed gift certificate order soon.
+	
+From,
+
+DancinGoggin.com
+""")
+
+		
+			
+		#send message to client
+		mail.send_mail(sender_address, email, subject, clientbody)
+		logging.debug("sent Contact Gift Certificate's email")
+		#send mail to goggins
+		mail.send_mail(sender_address, sender_address, subject, gogginsBody)
+		logging.debug("sent Goggin's Gift Certificate's email")
+		self.redirect('/gift')
 			
 config = {}
 config['webapp2_extras.sessions'] = {

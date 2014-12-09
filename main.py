@@ -21,6 +21,7 @@ import jinja2
 import models
 import logging
 from webapp2_extras import sessions
+from google.appengine.api import users
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -54,6 +55,7 @@ class LogoutHandler(BaseHandler):
 
 class LoginHandler(BaseHandler):
 	def get(self):
+		
 		if self.session.get('user'):
 			del self.session['user']
 		if not self.session.get('referrer'):
@@ -81,7 +83,7 @@ class LoginHandler(BaseHandler):
 		
 	
 class MainHandler(BaseHandler):
-    def get(self):
+	def get(self):
 		user = self.session.get('user')
 		logging.debug(user)
 		template_values = {'user': user}
@@ -102,12 +104,12 @@ class SubmitForm(webapp2.RequestHandler):
 		
 config = {}
 config['webapp2_extras.sessions'] = {
-    'secret_key': 'my-super-secret-key',
+	'secret_key': 'my-super-secret-key',
 }	
 		
 app = webapp2.WSGIApplication([
 	
-    ('/', MainHandler),
+	('/', MainHandler),
 	('/login', LoginHandler),
 	('/logout', LogoutHandler),
 	('/submit', SubmitForm),

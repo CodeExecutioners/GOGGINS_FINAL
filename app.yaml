@@ -1,4 +1,4 @@
-application: test-dancingoggin
+application: qa-dancingoggin
 version: final
 runtime: python27
 api_version: 1
@@ -16,14 +16,17 @@ handlers:
 - url: /js
   static_dir: js
   
+  
 - url: /images
   static_dir: images
   
 - url: /sass
   static_dir: sass
   
+- url: /dances
+  script: dances.app
   
-- url: /contact
+- url: /(contact|contactForm)
   script: contact.app 
  
 - url: /resources 
@@ -35,7 +38,7 @@ handlers:
 - url: /lessons
   script: lessons.app 
   
-- url: /(adminLessons|addLesson|updateLesson|editLesson|deleteLesson)
+- url: /(adminLessons|addLesson|updateLesson|editLesson|deleteLesson|deleteType|deleteCity)
   script: adminLessons.app  
   
 - url: /adminResources

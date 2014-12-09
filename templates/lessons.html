@@ -11,22 +11,22 @@
 				defaultLink = document.getElementById('defaultLink')
 				
 				if (which.id=='privateLink') {
-					defaultLink.style.display="none"
+					
 					link1.style.display="block"
 					link2.style.display="none"
 					link3.style.display="none"
 				} else if (which.id=='dropInLink') {
-					defaultLink.style.display="none"
+					
 					link1.style.display="none"
 					link2.style.display="block"
 					link3.style.display="none"
 				} else if (which.id=='groupLink') {
-					defaultLink.style.display="none"
+					
 					link1.style.display="none"
 					link2.style.display="none"
 					link3.style.display="block"
 				}else{
-					defaultLink.style.display="block"
+					
 					link1.style.display="none"
 					link2.style.display="none"
 					link3.style.display="none"
@@ -40,12 +40,24 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
-
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"/>
+  
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <script>
+  
+ 
+  $(function() {
+    $( ".tabs" ).tabs();
+  });
+  
+  
+  
+  </script>
 
 
 
 	
-<section class="wrapper style1">
+
 
 
 <!-- Button trigger modal -->
@@ -57,8 +69,8 @@ td.left{
 
 </style>
 
-
-<div class="container">
+<section class="wrapper style1">
+<div class="container" >
 
 
 
@@ -95,200 +107,212 @@ td.left{
 
 <div class="row">
 
-				<div class="3u">
-				
-							<div id="sidebar">
-
-								<!-- Sidebar -->
-									
-									<section>
-									
-									
-										<h4>Lessons</h4>
-										<ul class="links">
-										<li><a href="javascript:hideshow(document.getElementById('defaultLink'))" >Instructions</a></li>
-										<li><a href="javascript:hideshow(document.getElementById('privateLink'))" >Private & Group Lessons (by appointment)</a></li>
-										<li><a href="javascript:hideshow(document.getElementById('dropInLink'))"  >Group Lessons/Dances Drop-In</a></li>
-										<li><a href="javascript:hideshow(document.getElementById('groupLink'))" >Group Lessons (4-6 week sessions)</a></li>
-										</ul>
-									</section>
+							
 						
-							</div>
-				</div>
-	
-			
 
+	
 <!--TESTING-->
+		<section class="5u">
 			<article id="defaultLink" class="private" style="display: block;">
-				<p>SELECT A TYPE TO VIEW LESSONS</p>
+				<h4>Find Lessons, Dances, or Events</h4>
+				<p>Do you want to find a location to learn how to dance and socialize?
+				Check out upcoming lessons and events near you!</p>
+				<ul>
+					<li>Step 1: Select Lesson Type</li>
+					<li>Step 2: Select City</li>
+					<li>Step 3: Go learn and dance!</li> 
+					
+					<li>
+				</ul>
+				<p>View location(s), date(s), time(s), cost, and details</p>
+				
+		{% if user %}
+		<h4>Administrator Lesson Guide</h4>
+				<ul>
+				<li>Option 1: Add new lessons by filling out the form</li>
+				
+				<li>
+				<input id="modalButton" type="button" class="addLesson btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"  value="Add Lesson">
+						  
+				</input>
+				
+						</li>
+				<li>Option 2: Select "Edit" to modify lesson information</li>
+				<li>Option 3: Select "Delete" to remove lessons </li>
+				</ul>
+		{% endif %}
+				
 			</article>
 
-		
-
-
-
-			
-				
-		<div class="9u">
-		{% if user %}
-				<button id="modalButton" type="button" class="addLesson btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-						  Add Lesson
-						</button>
-		{% endif %}
-
-		<article id="privateLink" class="private" style="display: none;">
-		<h4>Private Lessons</h4>
-		{% for plesson in privateLessons %}
-
-					
-			<table class="table">
-			{% if user %}
-			<tr><td class ="left" colspan="3">	
-				<button id ="id{{plesson.key.id()}}"type="button" class="editLesson btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-					EDIT
-				</button>
-				<button id ="id{{plesson.key.id()}}"type="button" class="deleteLesson btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-					DELETE
-				</button>
-				</tr>
-				{% endif %}	
-			 <tr>
-				<td class="left"><span class="label label-info">LOCATION</span></br><li>{{plesson.location}}</li></td>
-				<td class="left"><span class="label label-info">DATE</span></br><li>{{plesson.date}}</li></td>
-				<td class="left"><span class="label label-info">TIME</span></br><li>{{plesson.time}}</li></td>
-			 </tr>
-			 <tr>
-			 
-				<td colspan = "3"class="left"><span class="label label-info">DETAILS</span></br><li>{{plesson.details}}</li></td>
-			 </tr>
-			  <tr>
-				
-				<td class="left"><span class="label label-info">CITY</span></br><li>{{plesson.city}}</li></td>
-				<td></td>
-				<td class="left"><span class="label label-info">COST</span> </br><li>{{plesson.cost}}</li></td>
-			 </tr>
-			   <tr>
-				<td class="left"><span class="label label-info">LINK</span></br><li><a href="#">Learn more</a></li></td>
-				<td></td>
-				<td class="left"><span class="label label-info">DIRECTIONS</span></br><li><a href="#">Get Directions</a></li></td>
-			 </tr>
-			 
-			 </table>
-		
-		
-				
-		{% endfor %}
-		</div>	
-		</article>
-		
-		<div class="9u">
-		<article id="dropInLink" class="dropIn" style="display: none;">
-		 <h4>Drop-In Lessons</h4>
-		
-		
-		{% for dlesson in dropInLessons %}		
-		<div id="{{dlesson.key.id()}}" class="span12">
-		
-					
-			<table class="table">
-			{% if user %}
-			<tr><td class ="left" colspan="3">	
-				<button id ="id{{dlesson.key.id()}}"type="button" class="editLesson btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-					EDIT
-				</button>
-				<button id ="id{{dlesson.key.id()}}"type="button" class="deleteLesson btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-					DELETE
-				</button>
-				</tr>
-				{% endif %}	
-			 <tr>
-				<td class="left"><span class="label label-info">LOCATION</span></br><li>{{dlesson.location}}</li></td>
-				<td class="left"><span class="label label-info">DATE</span></br><li>{{dlesson.date}}</li></td>
-				<td class="left"><span class="label label-info">TIME</span></br><li>{{dlesson.time}}</li></td>
-			 </tr>
-			 <tr>
-			 
-				<td colspan = "3"class="left"><span class="label label-info">DETAILS</span></br><li>{{dlesson.details}}</li></td>
-			 </tr>
-			  <tr>
-				
-				<td class="left"><span class="label label-info">CITY</span></br><li>{{dlesson.city}}</li></td>
-				<td></td>
-				<td class="left"><span class="label label-info">COST</span> </br><li>{{dlesson.cost}}</li></td>
-			 </tr>
-			   <tr>
-				<td class="left"><span class="label label-info">LINK</span></br><li><a href="#">Learn more</a></li></td>
-				<td></td>
-				<td class="left"><span class="label label-info">DIRECTIONS</span></br><li><a href="#">Get Directions</a></li></td>
-			 </tr>
-			 
-			 </table>
-		
-		
-			
-		{% endfor %}
-		</div>	
-		</article>
-		
-		<div class="9u">
-		<article id="groupLink" class="group" style="display: none;">
-		 <h4>Group Lessons</h4>
-		
-		{% for glesson in groupLessons %}		
-		<div id="{{glesson.key.id()}}" class="span12">
-		
-		
-		
-		<table class="table">
-			{% if user %}
-			<tr><td class ="left" colspan="3">	
-			<button id ="id{{glesson.key.id()}}"type="button" class="editLesson btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-					EDIT
-				</button>
-				<button id ="id{{glesson.key.id()}}"type="button" class="deleteLesson btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-					DELETE
-				</button>
-				</tr>
-				{% endif %}	
-			 <tr>
-				<td class="left"><span class="label label-info">LOCATION</span></br><li>{{glesson.location}}</li></td>
-				<td class="left"><span class="label label-info">DATE</span></br><li>{{glesson.date}}</li></td>
-				<td class="left"><span class="label label-info">TIME</span></br><li>{{glesson.time}}</li></td>
-			 </tr>
-			 <tr>
-			 
-				<td colspan = "3"class="left"><span class="label label-info">DETAILS</span></br><li>{{glesson.details}}</li></td>
-			 </tr>
-			  <tr>
-				
-				<td class="left"><span class="label label-info">CITY</span></br><li>{{glesson.city}}</li></td>
-				<td></td>
-				<td class="left"><span class="label label-info">COST</span> </br><li>{{glesson.cost}}</li></td>
-			 </tr>
-			   <tr>
-				<td class="left"><span class="label label-info">LINK</span></br><li><a href="#">Learn more</a></li></td>
-				<td></td>
-				<td class="left"><span class="label label-info">DIRECTIONS</span></br><li><a href="#">Get Directions</a></li></td>
-			 </tr>
-			 
-			 </table>
-		
-		 
-		
-		{% endfor %}
-		</div>	
-		</article>
-
-
-		</div>
+	</section>
+	<section class="6u">
+		<img class="image featured"src="images/moose_medium.jpg" alt="" />
+	</section>
+	
 </div>
 
+    
+
+<div class="row" >
+	
+	<div class="tabs 12u" style="border:none">
+		  <ul>
+			{% for type in types %}
+			<li>
+			<a href="#tabs-{{type.key.id()}}">{{type.typename}}</a>
+			{% if user %}
+			
+			<button style="background-color:rgb(229, 121, 121)" id="id{{type.key.id()}}"type="button" class="deleteType">X	</button>
+			{% endif %}
+			</li>
+			{% endfor %}
+			
+		  </ul>
+  
+  
+		  {% for type in types %}
+		  <div id="tabs-{{type.key.id()}}">
+			  <div class="tabs 12u">
+			  <ul>
+					{% for city in cities %}
+					
+					 {% set exists = [] %}
+					 {% for lesson in lessons %}
+						
+						{% if (lesson.city_key.id() not in exists) and (lesson.city_key == city.key) and (lesson.type_key == type.key)%}
+							{% do exists.append(city.key.id()) %}
+						
+						
+						<li>
+						<a href="#tabs-{{city.key.id()}}">{{city.cityname}}</a>
+						</li>
+						<!--Lesson KEY:{{lesson.key}} CITY KEY: {{lesson.city_key}}-->
+						{% endif %}
+						{% endfor %}
+						
+					{% endfor %}
+			  </ul>
+			  {% for city in cities %}
+				   <div id="tabs-{{city.key.id()}}">
+				   
+				   {% for lesson in lessons %}
+						{% if (lesson.city_key == city.key) and (lesson.type_key == type.key)%}
+							{% if user %}
+							
+							<div>
+							<input id ="id{{lesson.key.id()}}"type="button" class="editLesson btn-primary btn-sm" data-toggle="modal" data-target="#myModal" value="Edit">
+											
+										</input>
+										<input id ="id{{lesson.key.id()}}"type="button" class="deleteLesson btn-primary btn-sm" data-toggle="modal" data-target="#myModal" value="Delete">
+											
+							</input>
+							</div>
+							
+							{% endif %}
+							<table class="table  table-striped table-bordered table-hover" >
+								
+							
+							
+									<thead>
+									<tr class="info">
+									<th>Address</th>
+									<th>Date(s)</th>
+									<th>Time(s)</th>
+									</tr>
+									</thead>
+								<tbody>
+								<tr>
+								<td>{{lesson.location}}</td>
+								<td>{{lesson.date}}</td>
+								<td>{{lesson.time}}</td>
+								</tr>
+								<tr>
+								
+								
+								<thead>
+									<tr class="info">
+									<th colspan='2'>Details</th>
+									<th>Cost ($)</th>
+									</tr>
+									</thead>
+									
+								</tr>
+								<tr>
+								<td colspan='2'>
+								
+								{{lesson.details}}
+								</td>
+								<td>{{lesson.cost}}</td>
+								</tr>
+								
+								
+								<tr>
+								<thead>
+									<tr class="info">
+									<th colspan ="3">Link</th>
+							
+									
+									</tr>
+									</thead>
+								</tr>
+								
+								<tr>
+								<td colspan="3">
+								{% if lesson.link!="" %}
+								<a href="{{lesson.link}}">{{lesson.link}}</a>
+								{% else %}
+								None
+								{% endif %}
+								</td>
+								
+								
+								</tr>
+								<tr>
+								<thead>
+									<tr class="info">
+									<th colspan ="3">Directions</th>
+							
+									
+									</tr>
+								</thead>
+								<td colspan="3">
+								<form action="http://maps.google.com/maps" method="get" target="_blank">
+													<center>
+													<p>Enter your starting address:</p>
+													
+													<input style="width:75%"type="text" name="saddr" required/>
+													<input type="hidden" name="daddr" value="{{lesson.location}}" required/>
+													<input type="submit" value="Get Directions" />
+													</center>
+												</form>
+							
+								</td>
+								
+								</tr>
+								
+								
+								</tbody>
+								</table>
+						{% endif %}
+					{% endfor %}
+				   
+				  </div>
+			{% endfor %}
+			  </div>
+			  
+		   </div>
+		  {% endfor %}
+ 
+	</div>
+
 </div>
 
+	
 
-
+	</div>
 
 </section>
+
 
  
 
