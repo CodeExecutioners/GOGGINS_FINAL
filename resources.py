@@ -23,16 +23,21 @@ class ResourcesPage(BaseHandler):
 
 	def post(self):
 
-		jsonstring = self.request.body
-		logging.debug(jsonstring)
-		self.response.out.write(jsonstring)
-		jsonResources = json.loads(jsonstring)
-		logging.debug(jsonResources)
-		for resource in jsonResources:
-			id = resource['ID']
-			desc = resource['DATA']
-			models.Resource.updateResourceDescByID(id, desc)
-		logging.debug('post end')
+		if 'Delete' in self.request.POST:
+			id = self.request.get("resID")
+			models.Resource.deleteResourceByID(id)
+		else:
+			type = self.request.get("resType")
+			title = self.request.get("resTitle")
+			linkOrAddress = self.request.get("resAddress")
+			desc = self.request.get("resDesc")
+			id = self.request.get("resID")
+			
+			if id == "000":
+				id = 'None'
+			
+			models.Resource.updateResourceByID(id, type, title, linkOrAddress, desc)
+			
 config = {}
 config['webapp2_extras.sessions'] = {
     'secret_key': 'my-super-secret-key',
