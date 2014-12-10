@@ -24,7 +24,8 @@
 	}
 
 	body, input, select, textarea {
-		color: #474747;
+		background:#37C0FB;
+		color:#474747;
 		font-family: 'Source Sans Pro', sans-serif;
 		font-size: 16pt;
 		font-weight: 300;
@@ -52,6 +53,14 @@
 
 	p, ul, ol, dl, table, blockquote {
 		margin: 0 0 2em 0;
+	}
+	#logo{
+		font-family: 'Brush Script MT', cursive;
+		font-style: normal;
+		font-variant: normal;
+		font-weight: 900;
+		font-size: 3em;
+		line-height: 45.4px;	
 	}
 
 	h1, h2, h3, h4, h5, h6 {
@@ -869,6 +878,23 @@ padding:0;
 	margin-top:-2em;
 	
 }
+#highlightContainer{
+	margin-top:0em;
+	padding: 3em;
+	background:white;
+}
+.highlightText{
+	position: relative;
+	float: right;
+	text-align: center;
+}
+.imageHighlight{
+	margin-left:33%;
+	margin-right: 33%;
+	width:33%;
+	border:none;
+}
+
 
 .lessonHeader{
 	background-color:#333;
