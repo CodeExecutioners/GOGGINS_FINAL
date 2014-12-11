@@ -29,6 +29,23 @@
 			height: 193px;
 			width: 773px;
 		}
+		
+		li {
+			font-size: 14px;
+			margin-left: 10px;
+			list-style-type: circle;
+		 }
+		 
+		#boxed {
+		  border: 5px ridge CornflowerBlue;
+		  padding: 25px 50px;
+		}
+		
+		input["text"] {
+			width: 100%; 
+			padding: 5px;
+		}
+		
 	</style>
 		<!-- Main -->
 		
@@ -73,6 +90,11 @@
 										</header>
 										<p>Click on the link or location you want to access. 
 										</p>
+										
+										{% if user %}
+										<p>Admin warning: You may have to refresh the page in order for resource changes to show up accurately 
+										</p>
+										{% endif %}
 								</article>
 								
 	
@@ -198,7 +220,7 @@
 							
 						</div>
 					{% if user %}
-						<div class="container">
+						<div id="boxed">
 							<form class="cmxform" id="newResourceForm" method="post" action="/resources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
 
 									 <fieldset>		 
