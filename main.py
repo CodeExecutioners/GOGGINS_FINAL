@@ -22,13 +22,41 @@ import models
 import logging
 from webapp2_extras import sessions
 from google.appengine.api import users
-
+from google.appengine.api import mail
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
+def handle_404(request, response, exception):
+    logging.exception(exception)
+    template_values = {}
+    response.set_status(404)
+    template = JINJA_ENVIRONMENT.get_template('templates/default_error.html')
+    response.write(template.render(template_values))
+
+def handle_500(request, response, exception):
+    logging.exception(exception)
+    response.set_status(500)
+    template_values = {}
+    template = JINJA_ENVIRONMENT.get_template('templates/default_error.html')
+    response.write(template.render(template_values))
+
 class BaseHandler(webapp2.RequestHandler):
+    def handle_exception(self, exception, debug):
+        # Log the error.
+        logging.exception(exception)
+
+        # Set a custom message.
+       
+
+        # If the exception is a HTTPException, use its error code.
+        # Otherwise use a generic 500 error code.
+        if isinstance(exception, webapp2.HTTPException):
+            self.response.set_status(exception.code)
+        else:
+            self.response.set_status(500)
+
     def dispatch(self):
         # Get a session store for this request.
         self.session_store = sessions.get_store(request=self.request)
@@ -45,6 +73,8 @@ class BaseHandler(webapp2.RequestHandler):
         # Returns a session using the default cookie key.
         return self.session_store.get_session()
 
+		
+		
 
 class LogoutHandler(BaseHandler):
 	def get(self):
@@ -71,17 +101,61 @@ class LoginHandler(BaseHandler):
 		username = self.request.get('username')
 		password = self.request.get('password')
 		loginSuccess = models.Users.loginProcess(username, password)
+		
+		
 		if(loginSuccess):
 			self.session['user'] = username
 			self.redirect('/')
 			#self.redirect('/adminLessons')
 		else:
 			self.redirect('/login')
-	
+
+class RecoverHandler(BaseHandler):
+	def get(self):
+		template_values = {}
+		template = JINJA_ENVIRONMENT.get_template('templates/recover.html')
+		self.response.write(template.render(template_values))
+
+	def post(self):
+		username = self.request.get('username')
+		password = models.Users.getPassword(username)
+		email = models.Users.getEmail(username)
+		logging.debug('The password: ' + password)
+		logging.debug('Email:' + email)
+		gogginsBody = ("""
+Dear """+username+""",
+
+This is your recovered password:
+
+"""+password+"""
+
+
+From,
+
+DancinGoggin.com
+""")
+		logging.debug("Sending Password Recovery Email")
+		mail.send_mail("fisher.robert26@gmail.com",email,"Password Recovery", gogginsBody)
+		logging.debug("sent Goggin's Password Recovery email")
+		self.redirect('/')
+
+class ChangeHandler(BaseHandler):
+	def get(self):
+		template_values = {}
+		template = JINJA_ENVIRONMENT.get_template('templates/change.html')
+		self.response.write(template.render(template_values))
+
+	def post(self):
+		username = self.request.get('username')
+		oldPass= self.request.get('password')
+		newPass = self.request.get('newPass')
+		if(models.Users.resetPassword(username,oldPass,newPass)=="True"):
+			self.redirect('/')
+		else:
+			#self.response.write("Invalid password")
+			self.redirect('/change')
 		
-		
-		
-	
+			
 class MainHandler(BaseHandler):
 	def get(self):
 		user = self.session.get('user')
@@ -107,12 +181,17 @@ config = {}
 config['webapp2_extras.sessions'] = {
 	'secret_key': 'my-super-secret-key',
 }	
+
+
 		
 app = webapp2.WSGIApplication([
-	
 	('/', MainHandler),
 	('/login', LoginHandler),
 	('/logout', LogoutHandler),
 	('/submit', SubmitForm),
+	('/recover',RecoverHandler),
+	('/change',ChangeHandler),
 
 ], config=config,debug=True)
+app.error_handlers[404] = handle_404
+app.error_handlers[500] = handle_500

@@ -8,9 +8,8 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 	
 class GiftPage(BaseHandler):
 	def get(self):
-		resources = models.Resource.getAllResources()
-		users = self.session.get('user')
-		template_values ={'user':users, 'resources': resources}
+		user = self.session.get('user')
+		template_values ={'user': user}
 		template = JINJA_ENVIRONMENT.get_template('templates/gift.html')
 		self.response.write(template.render(template_values))
 	def post(self):
@@ -60,7 +59,8 @@ Sincerely,
 
 Dave & Karen Goggin
 715.833.1879
-Email@DancinGoggin.com""")
+Email@DancinGoggin.com
+Goggin Ballroom Dancing""")
 
 
 			gogginsBody = ("""

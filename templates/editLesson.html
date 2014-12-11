@@ -1,29 +1,92 @@
+<script>
+   $('select[name=editlessonsInputType]').change(function () {
+    if ($(this).val() == 'Add') {
+        $('#editType').show();
+    } else {
+        $('#editType').hide();
+    }
+	});
+	
+	$('select[name=editlessonsInputCity]').change(function () {
+    if ($(this).val() == 'Add') {
+        $('#editCity').show();
+    } else {
+        $('#editCity').hide();
+    }
+	});
+	
+
+</script>
+			
+
 <form class="formLesson" name="editLesson" id="editLessonForm">
+		
+					
+
 	<fieldset>
 	<input  type="hidden" id="editlessonId" name="editlessonsId" type="text" value="{{lesson.key.id()}}" required/>
 			 <ul class="nav nav-list">
-				
-				<li>
-					<label for="editlessonsType">Type:</label>
+				 <li>
+				<label for="editlessonsInputType">Type</label>
+					<select id="editlessonsInputType" name="editlessonsInputType" size="1" required>
+						<option value="" >Select a Type</option>
 						{% for type in types %}
-							{% if lesson.type_key.id() == type.key.id() %}
-								<input  id="editlessonInputType" name="editlessonsInputType" placeholder="ex: Private, Group, Events, etc."type="text" value="{{type.typename}}" required/>
-							{% endif %}
+							
+						{% if type.key.id() == lesson.type_key.id() %}
+							<option value="{{type.key.id()}}" selected>{{type.typename}}</option>
+						{% else %}
+							<option value="{{type.key.id()}}" >{{type.typename}}</option>
+						{% endif %}
 						{% endfor %}
+						<option value="Add" >Add Type</option>
+					</select>			
 					
 				</li>
 				
-				</li>
 				<li>
+				<div id="editType" style="display:none">
+
+					<label for="editlessonsType">Add New Type:</label>
+					<input  id="editlessonsInputType" name="editlessonsInputNewType" placeholder="ex: Private, Group, Events, etc." type="text" value="" required/>
+					
+				</div>
+				</li>
+				
+				
+				<li>
+				
+				
 				
 					<label for="editlessonsInputCity">City:</label>
-					{% for city in cities %}
-							{% if lesson.city_key.id() == city.key.id() %}
-								<input  id="editlessonInputCity" name="editlessonsInputCity" placeholder="ex: Private, Group, Events, etc." type="text" value="{{city.cityname}}" required/>
-							{% endif %}
-						{% endfor %}
 					
-				</li>
+					<select id="editlessonsInputCity" name="editlessonsInputCity" size="1" required>
+						<option value="" >Select a City</option>
+						
+						{% for city in all_cities %}
+							{% if city.key.id() == lesson.city_key.id() %}
+							<option value="{{city.key.id()}}" selected >{{city.cityname}}</option>
+							{% else %}
+							<option value="{{city.key.id()}}"  >{{city.cityname}}</option>
+							{% endif %}
+							
+						
+						{% endfor %}
+						<option value="Add">Add City</option>
+					</select>			
+					
+					</li>
+					<li>
+				
+					<div id="editCity" style="display:none">
+
+						<label for="editlessonsInputNewCity">Add New City:</label>
+						<input  id="editlessonsInputNewCity" name="editlessonsInputNewCity" type="text" value=""/>
+						
+					</div>
+					</li>
+				
+				
+			
 				<li><label for="editlessonsInputLocation">Address:</label>
 					<input  id="editlessonsInputLocation" name="editlessonsInputLocation"  type="text" placeholder="Provide full address (location, street, city, state, zip)" value="{{lesson.location}}" required/>
 				</li>

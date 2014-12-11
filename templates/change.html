@@ -1,0 +1,74 @@
+{% extends "templates/_base.htm" %}
+
+{% block headercontent %}
+
+	<h1><a href="/" id="logo">Goggin Ballroom Dancing <em>Ballroom, Latin, & Swing Lessons
+
+</em></a></h1>
+				
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li ><a href="/">Home</a></li>
+							<li ><a href="contact">About Us/Contact</a></li>
+							<li ><a href="resources">Resources</a></li>
+							<li ><a href="lessons">Dance Lessons</a></li>
+							<li ><a href="gift">Gift Certificates</a></li>
+							<li class="current"><a href="login">Login</a></li>
+						</ul>
+					</nav>
+
+{% endblock %}
+
+
+{% block bodycontent %}
+		
+		
+		
+		<!-- Main -->
+			<section class="wrapper style1">
+					
+				<div class="container">
+					<div id="content">
+					<center>
+						<div class="4u">
+						<!-- Content -->
+
+								<header>
+									<h2><center>Change Password</center></h2>
+								</header>
+								
+								<form id="loginForm" method="post" action="/change" onsubmit="return procceedPass()">
+									<input type="text" name="username" required="true" placeholder="Username" ></input>
+									<p></p>
+									<input type="password" name="password" required="true" placeholder="Your current Password"></input>
+									<p></p>
+									<input type="password" name="newPass" id="uno" required="true" placeholder="New Password"></input>
+									<p></p>
+									<input type="password"  name="conf" id="dos" required="true" placeholder="Confirm new Password"></input>
+									<p></p>
+									<input type="submit" value="Submit"></input>
+								</form>
+								</div>
+						</center>
+					</div>
+					</div>
+
+			</section>			
+			<script>
+				function procceedPass() {
+    				var password = $("#uno").val();
+	    			var confirmPassword = $("#dos").val();
+
+	    			if (password != confirmPassword){
+	        			alert("Password does not match");
+	        			return false;
+	        		}				}
+
+				/*$(document).ready(function () {
+				   $("uno").keyup(procceedPass());
+				});*/
+			</script>
+
+	{% endblock %}
+

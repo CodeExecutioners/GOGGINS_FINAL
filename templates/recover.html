@@ -15,16 +15,12 @@
 							<li ><a href="resources">Resources</a></li>
 							<li ><a href="lessons">Dance Lessons</a></li>
 							<li ><a href="gift">Gift Certificates</a></li>
-							{% if user %}
-							<li class="current"><a href="logout">Logout, {{user}}</a></li>
-							{% else %}
 							<li class="current"><a href="login">Login</a></li>
-							{% endif %}	
+								
 						</ul>
 					</nav>
 
 {% endblock %}
-
 
 {% block bodycontent %}
 		
@@ -39,10 +35,14 @@
 						<!-- Content -->
 
 								<header>
-									<h2><center>Login</center></h2>
+									<h2><center>Recover Password</center></h2>
 								</header>
 								
-							<form id="loginForm" method="post" action="/login"> <input type="text" name="username" required="true" placeholder="Username" ></input> <p></p> <input type="password" name="password" required="true" placeholder="Password"></input> <p></p> <input type="submit" value="Login"></input> </form> <li><a href="recover">Forgot password?</a></li> <li><a href="change">Change password?</a></li>
+								<form id="loginForm" method="post" action="/recover">
+									<input type="text" name="username" required="true" placeholder="Username" ></input>
+									<p></p>
+									<input type="submit" value="Recover"></input>
+								</form
 								</div>
 						</center>
 					</div>

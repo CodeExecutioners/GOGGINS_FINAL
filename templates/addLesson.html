@@ -1,19 +1,81 @@
+<script>
+   $('select[name=lessonsInputType]').change(function () {
+    if ($(this).val() == 'Add') {
+        $('#addType').show();
+    } else {
+        $('#addType').hide();
+    }
+	});
+	
+	$('select[name=lessonsInputCity]').change(function () {
+    if ($(this).val() == 'Add') {
+        $('#addCity').show();
+    } else {
+        $('#addCity').hide();
+    }
+	});
+	
 
+</script>
+			
+					
 <form class="formLesson" name="addLesson" id="addLessonForm">
+
+
+
 		<fieldset>
 		<input  type="hidden" id="addlessonId" name="addlessonId" type="text" value="None" required/>
 			 <ul class="nav nav-list">
+			 <li>
+				<label for="lessonsType">Type</label>
+					<select id="lessonsInputType" name="lessonsInputType" size="1" required>
+						<option value="" >Select a Type</option>
+						{% for type in types %}
+						
+						<option value="{{type.key.id()}}">{{type.typename}}</option>
+						{% endfor %}
+						<option value="Add" >Add Type</option>
+					</select>			
+					
+				</li>
+				
 				<li>
-					<label for="lessonsType">Type:</label>
+				<div id="addType" style="display:none">
+
+					<label for="lessonsType">Add New Type:</label>
 					<input  id="lessonsInputType" name="lessonsInputNewType" placeholder="ex: Private, Group, Events, etc." type="text" value="" required/>
-		
+					
+				</div>
 				</li>
 				
 				
 				<li>
+				
+				
+				
 					<label for="lessonsInputCity">City:</label>
-					<input  id="lessonInputCity" name="lessonsInputCity" type="text" required/>
-				</li>
+					
+					<select id="lessonsInputCity" name="lessonsInputCity" size="1" required>
+						<option value="" >Select a City</option>
+						
+						{% for city in cities %}
+						<option value="{{city.key.id()}}">{{city.cityname}}</option>
+						{% endfor %}
+						<option value="Add">Add City</option>
+					</select>			
+					
+					</li>
+					<li>
+				
+					<div id="addCity" style="display:none">
+
+						<label for="lessonsInputNewCity">Add New City:</label>
+						<input  id="lessonsInputNewCity" name="lessonsInputNewCity" type="text" value=""/>
+						
+					</div>
+				
+				
+					</li>
 				<li><label for="lessonsInputLocation">Address:</label>
 					<input  id="lessonsInputLocation" name="lessonsInputLocation" placeholder="Provide full address (location, street, city, state, zip)"type="text" required/>
 				</li>

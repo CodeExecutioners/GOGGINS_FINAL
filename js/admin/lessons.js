@@ -379,6 +379,7 @@ $(function(){ //Add, Save, Edit and Delete functions code
 	
 	
 	$("#submitLesson").on("click", function(event){
+			$("#spinner").show();
 			var form = $(".formLesson");
 			if(form.valid()){
 			

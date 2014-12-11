@@ -22,7 +22,8 @@ class AddLesson(BaseHandler):
 	def get(self):
 		logging.debug("Add Lesson GET START")
 		types = models.LessonType.getAllTypes()
-		template_values ={'types': types}
+		cities = models.LessonCity.getAllCities()
+		template_values ={'types': types, 'cities': cities}
 		template = JINJA_ENVIRONMENT.get_template('templates/addLesson.html')
 		self.response.write(template.render(template_values))
 		logging.debug("AddLesson Get done")
@@ -39,30 +40,54 @@ class UpdateLesson(BaseHandler):
 		
 		#get the values
 		id = jsonObject[0]['value']
-		type_name = jsonObject[1]['value']
-		city_name = jsonObject[2]['value']
-		location = jsonObject[3]['value']
-		date = jsonObject[4]['value']
-		time = jsonObject[5]['value']
-		cost = jsonObject[6]['value']
-		details = jsonObject[7]['value']
-		link = jsonObject[8]['value']
+		logging.debug("ID:"+ id)
+		type_id = jsonObject[1]['value']
+		logging.debug("TYPE: " +type_id)
+		new_type_name = jsonObject[2]['value']
+		logging.debug("NEW TYPE: " +new_type_name)
+		city_id = jsonObject[3]['value']
+		logging.debug("CITY: " + city_id)
+		
+		new_city_name = jsonObject[4]['value']
+		logging.debug("NEW CITY: " + new_city_name)
+		
+		location = jsonObject[5]['value']
+		
+		logging.debug("LOCATION: " +location)
+		date = jsonObject[6]['value']
+		logging.debug("DATE: "+ date)
+		time = jsonObject[7]['value']
+		logging.debug("TIME: " + time)
+		cost = jsonObject[8]['value']
+		logging.debug("COST" + cost)
+		details = jsonObject[9]['value']
+		logging.debug("DETAILS: " +details)
+		link = jsonObject[10]['value']
+		logging.debug("LINK:" + link)
 		
 		
 		#insert city if new
-		city = models.LessonCity.getLessonCityByName(city_name)
-		if city == None:
+		
+		if city_id == "Add":
 			logging.debug("CITY NOT FOUND, adding new city")
-			city = models.LessonCity.insertCity(city_name)
+			city = models.LessonCity.insertCity(new_city_name)
 		else:
-			logging.debug("CITY FOUND!")
-		logging.debug(city)
+			#if(models.LessonCity.getLessonCityByName(new_city_name)==None)
+			city = models.LessonCity.get_by_id(int(city_id))
+			logging.debug("Existing City FOUND!")
 		
-		type = models.LessonType.getLessonTypeByName(type_name)
 		
-		if type == None:
+		if type_id == "Add":
 			logging.debug("TYPE NOT FOUND, adding new type")
-			type = models.LessonType.insert(type_name)
+			type = models.LessonType.insert(new_type_name)
+		else:
+			logging.debug("Existing Type")
+			type = models.LessonType.get_by_id(int(type_id))
+		
+		
+		
+		
+		logging.debug(city)
 		logging.debug(type)
 		
 		
@@ -82,9 +107,9 @@ class EditLesson(BaseHandler):
 		id = self.request.body
 		logging.debug("id: " +id)
 		types = models.LessonType.getAllTypes()
-		cities = models.LessonCity.getAllCities()
+		all_cities = models.LessonCity.getAllCities()
 		lesson = models.LessonCompositeKeys.getLessonByID(id)
-		template_values ={'lesson':lesson, 'types': types, 'cities': cities}
+		template_values ={'lesson':lesson, 'types': types, 'all_cities': all_cities}
 		template = JINJA_ENVIRONMENT.get_template('templates/editLesson.html')
 		self.response.write(template.render(template_values))
 		logging.debug("EditLesson Get done")

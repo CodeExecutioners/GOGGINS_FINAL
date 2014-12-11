@@ -31,7 +31,21 @@ class LessonType(ndb.Model):
 				return None
 		except:
 			logging.error('getLessonTypeByName failed')
-							
+	
+	@classmethod
+	def getLessonTypeByID(self, id):
+		try:
+		
+			if(id != 'None'):
+				type = LessonType.get_by_id(int(id))
+				logging.debug("getLessonTypeByID")
+				logging.debug(type)
+				return type
+				
+				
+		except:
+			logging.error('getLessonTypeByID failed')
+		
 	@classmethod
 	def insert(self, typename):
 			logging.debug('insertType start')
@@ -386,10 +400,10 @@ class LessonCity(ndb.Model):
 			city = self.query(self.cityname == cityname)
 			logging.debug(city)
 			if city != None:
-				logging.debug(cityname + "FOUND!!!")
+				
 				return city.get()
 			else:
-				logging.debug(cityname + "NOT FOUND!!!")
+				
 				return None
 		except:
 			logging.error('getAllCities failed')
@@ -484,7 +498,7 @@ class Users(ndb.Model):
 	#return true if user is found, false otherwise
 	@classmethod
 	def loginProcess(self, username, password):
-		loginSuccess = False;
+		loginSuccess = False
 		try:
 			logging.debug(self.query().count())
 			logging.debug(username)
@@ -495,7 +509,57 @@ class Users(ndb.Model):
 		except:
 			logging.error('loginProcess failed')
 			return loginSuccess
+
+	@classmethod
+	def getPassword(self, username):
 		
+		try:
+			logging.debug(self.query().count())
+			logging.debug(username)
+			password=""
+			email=""
+			password = (self.query(self.username == username).get().password)
+			return password
+		except:
+			logging.error('recover Process failed')
+
+	@classmethod
+	def getEmail(self, username):
+		try:
+			logging.debug("Get Email success")
+			logging.debug(self.query().count())
+			logging.debug(username)
+			password = (self.query(self.username == username).get().email)
+			return password
+		except:
+			logging.error('getEmail Process failed')
+	
+		
+			
+	@classmethod
+	def resetPassword(self, username,oldPassword,newPassword):
+		loginSuccess = False;
+		try:
+			logging.debug(self.query().count())
+			logging.debug(username)
+			password = (self.query(self.username == username).get().password)
+			logging.debug('The password is:' + password)
+			loginSuccess = (self.query(self.username == username and self.password==oldPassword).count()==1)
+
+			if(loginSuccess):
+				objeto=(self.query(self.username == username)).get()
+				logging.debug("objeto: " + objeto.password)
+				objeto.password=newPassword
+				objeto.put()
+				logging.debug("inserted")
+				return "True"
+			else:
+				logging.debug("Not good")
+				return "False"
+		except:
+			logging.error('recover Process failed')
+			return "False"
+
 class Resource(ndb.Model):
 	type = ndb.StringProperty()
 	title = ndb.StringProperty()
