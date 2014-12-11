@@ -22,7 +22,9 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class DancesPage(BaseHandler):
 
 	def get(self):
-		template_values = {}
+		resources = models.Resource.getAllResources()
+		users = self.session.get('user')
+		template_values ={'user':users, 'resources': resources}
 		template = JINJA_ENVIRONMENT.get_template('templates/dances.html')
 		self.response.write(template.render(template_values))
 		

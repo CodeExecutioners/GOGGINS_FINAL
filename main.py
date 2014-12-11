@@ -86,7 +86,8 @@ class MainHandler(BaseHandler):
 	def get(self):
 		user = self.session.get('user')
 		logging.debug(user)
-		template_values = {'user': user}
+		resources = models.Resource.getAllResources()
+		template_values = {'user': user, 'resources': resources}
 		path = self.request.path
 		template = JINJA_ENVIRONMENT.get_template('templates/index.html')
 		self.response.write(template.render(template_values))

@@ -23,6 +23,8 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class LessonsPage(BaseHandler):
 
 	def get(self):
+	
+		resources = models.Resource.getAllResources()
 		
 		user = self.session.get('user')
 		logging.debug(user)
@@ -49,7 +51,7 @@ class LessonsPage(BaseHandler):
 		
 		
 		cities = models.LessonCity.getAllCities()
-		template_values ={'user': user, 'types': types, 'lessons': allLessons, 'cities': cities}
+		template_values ={'user': user, 'types': types, 'lessons': allLessons, 'cities': cities, 'resources': resources}
 		template = JINJA_ENVIRONMENT.get_template('templates/lessons.html')
 		self.response.write(template.render(template_values))
 		
