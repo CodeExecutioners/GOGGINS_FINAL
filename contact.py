@@ -17,8 +17,9 @@ class ContactForm(BaseHandler):
 
 class ContactPage(BaseHandler):
 	def get(self):
-		user = self.session.get('user')
-		template_values ={'user': user}
+		resources = models.Resource.getAllResources()
+		users = self.session.get('user')
+		template_values ={'user':users, 'resources': resources}
 		template = JINJA_ENVIRONMENT.get_template('templates/contact.html')
 		self.response.write(template.render(template_values))
 

@@ -93,8 +93,9 @@ class LoginHandler(BaseHandler):
 				self.request.environ['HTTP_REFERER'] \
 				if 'HTTP_REFERER' in self.request.environ \
 				else '/'
-		template_values = {
-		}
+		resources = models.Resource.getAllResources()
+		users = self.session.get('user')
+		template_values ={'user':users, 'resources': resources}
 		template = JINJA_ENVIRONMENT.get_template('templates/login.html')
 		self.response.write(template.render(template_values))
 	def post(self):
