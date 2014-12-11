@@ -24,28 +24,7 @@
 				{% endfor %}
 			}
 		</script>
-	<style type="text/css">
-		textarea {
-			height: 193px;
-			width: 773px;
-		}
-		
-		li {
-			font-size: 14px;
-			margin-left: 10px;
-			list-style-type: circle;
-		 }
-		 
-		#boxed {
-		  border: 5px ridge CornflowerBlue;
-		  padding: 25px 50px;
-		}
-		
-		input["text"] {
-			width: 100%; 
-			padding: 5px;
-		}
-		
+	<style type="text/css">	
 	</style>
 		<!-- Main -->
 		
@@ -248,6 +227,10 @@
 											<div class="12u">
 												
 												  <label for="resAddress">Resource Address</label>
+												  <ul>
+													  <li id="bullets">Link Address Example: https://www.google.com/</li>
+													  <li id="bullets">Location Address Example: 1812 Lynn Ave, Altoona, WI 54720</li>
+													</ul>
 												  <input id="resAddress" name="resAddress" type="text"/>
 												
 											</div>
@@ -258,7 +241,9 @@
 												
 											</div>
 											<input type="hidden" name="resID" value="000" />
+											<div id="addResButton">
 											 <input class="submit" type="submit" value="Add"/>
+											 </div>
 											
 									  </fieldset>
 									

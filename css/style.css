@@ -591,6 +591,9 @@
 				font-size: 1.5em;
 				letter-spacing: -0.025em;
 				border: 0;
+				color: #474747;
+				text-decoration: none;
+				
 			}
 
 	#nav {
@@ -919,5 +922,31 @@ margin-left: 10px;
 padding: 5px;
 margin-top: 1px \9;
 line-height: normal;
+}
+
+#resDesc {
+			height: 193px;
+			width: 773px;
+		}
+		
+#bullets {
+	font-size: 14px;
+	margin-left: 10px;
+	list-style-type: circle;
+ }
+ 
+#boxed {
+  border: 5px ridge CornflowerBlue;
+  padding: 25px 50px;
+}
+
+#orderButton {
+  width: 50%;
+  padding-bottom: 1em;
+}
+
+#addResButton {
+  width: 50%;
+  padding-bottom: 1em;
 }
 
