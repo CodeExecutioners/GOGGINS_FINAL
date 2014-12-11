@@ -82,6 +82,7 @@
 
 		h1 em, h2 em, h3 em, h4 em, h5 em, h6 em {
 			font-style: normal;
+			font-size: .5em;
 			font-weight: 300;
 			display: block;
 		}
@@ -948,5 +949,13 @@ line-height: normal;
 #addResButton {
   width: 50%;
   padding-bottom: 1em;
+  margin-top: 0.5em;
 }
 
+#lesGetDirections{
+	margin-top: 0.5em;
+}
+
+#resDiv{
+	padding-bottom: 2em;
+}

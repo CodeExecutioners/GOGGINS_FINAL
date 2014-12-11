@@ -31,7 +31,7 @@
 
 			<section class="wrapper style1">
 				<div class="container">
-					<div class="row double">
+					<div class="row double" id="resDiv">
 						<div class="4u">
 							<div id="sidebar">
 
@@ -84,11 +84,11 @@
 									{% if resource.type == 'link' %}
 									<article id="{{resource.key.id()}}" style="display: none;">
 										<header>
-											<a href="{{resource.linkOrAddress}}">
+											<a href="{{resource.linkOrAddress}}" target="_blank">
 											<h2>{{resource.title}}</h2>
 											</a>
 										</header>
-										<a href="{{resource.linkOrAddress}}">
+										<a href="{{resource.linkOrAddress}}" target="_blank">
 											{{resource.linkOrAddress}}
 										</a>
 										<textarea id="resDesc" readonly> {{resource.desc}} </textarea>
