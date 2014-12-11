@@ -1,0 +1,62 @@
+
+{% extends "templates/_base.htm" %}
+{% block bodycontent %}
+ 
+<!-- Main -->
+
+
+
+<section class="wrapper style1">
+<div class="container">
+<div id="content">
+
+<!-- Content -->
+ 
+<h2 style="text-align:center">Resources</h2>
+	
+	
+<input type="submit" id="resourceSaveTable"></input>
+<button id="btnAddResRow">New</button>
+<table id="resourceTable" class="display" cellspacing="0" width="100%">
+        <thead>
+			
+            <tr>
+				<th>Type</th>
+				<th>Title</th>
+				<th>Link or Address</th>
+				<th>Desc</th>
+				<th>Options</th>	
+			</tr>
+        </thead>
+		<tbody>
+		{% for resource in resources %}
+
+		<tr>
+			<td>{{resource.type}}</td>
+			<td>{{resource.title}}</td>
+			<td>{{resource.linkOrAddress}}</td>
+			<td>{{resource.desc}}</td>
+			<td><button class='btnEditRes'value='Edit'>Edit</button></td>
+			
+		</tr>
+		{% endfor %}
+		</tbody>
+    </table>
+
+<style>
+ 
+ 
+th,tr { height: 40px; text-align:center  } 
+th {font-size:100%; font-weight: bold;background-color: #fff; background-color:#30C4DA;} td { font-size:70%; white-space:pre } img{position: relative;
+    right: -30%;
+    width: 400px;}
+ 
+</style>
+</div>
+</div>
+</section>
+<script>
+</script>
+ 
+
+{% endblock %}

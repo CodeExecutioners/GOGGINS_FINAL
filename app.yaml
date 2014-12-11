@@ -1,5 +1,5 @@
-application: coherent-flame-749
-version: sprint2
+application: qa-dancingoggin
+version: final
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -40,6 +40,10 @@ handlers:
   
 - url: /(adminLessons|addLesson|updateLesson|editLesson|deleteLesson|deleteType|deleteCity)
   script: adminLessons.app  
+  
+- url: /adminResources
+  script: adminResources.app 
+ 
 
 - url: /success
   script: success.app
