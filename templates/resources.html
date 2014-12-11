@@ -29,6 +29,23 @@
 			height: 193px;
 			width: 773px;
 		}
+		
+		li {
+			font-size: 14px;
+			margin-left: 10px;
+			list-style-type: circle;
+		 }
+		 
+		#boxed {
+		  border: 5px ridge CornflowerBlue;
+		  padding: 25px 50px;
+		}
+		
+		input["text"] {
+			width: 100%; 
+			padding: 5px;
+		}
+		
 	</style>
 		<!-- Main -->
 		
@@ -73,6 +90,10 @@
 										</header>
 										<p>Click on the link or location you want to access. 
 										</p>
+										{% if user %}
+										<p>Admin warning: You may have to refresh the page in order for resource changes to show up accurately 
+										</p>
+										{% endif %}
 								</article>
 								
 	
@@ -83,11 +104,11 @@
 									{% if resource.type == 'link' %}
 									<article id="{{resource.key.id()}}" style="display: none;">
 										<header>
-											<a href="{{resource.linkOrAddress}}">
+											<a href="{{resource.linkOrAddress}}" target="_blank">
 											<h2>{{resource.title}}</h2>
 											</a>
 										</header>
-										<a href="{{resource.linkOrAddress}}">
+										<a href="{{resource.linkOrAddress}}" target="_blank">
 											{{resource.linkOrAddress}}
 										</a>
 										<textarea id="resDesc" readonly> {{resource.desc}} </textarea>
@@ -198,7 +219,7 @@
 							
 						</div>
 					{% if user %}
-						<div class="container">
+						<div id="boxed">
 							<form class="cmxform" id="newResourceForm" method="post" action="/resources" onsubmit="setTimeout(function () { window.location.reload(); }, 100)">
 
 									 <fieldset>		 
@@ -210,8 +231,8 @@
 												 <select id="resType" name="resType" size="1" required>
 												  <option value="">Select a type</option>
 												  
-												  <option value="link">link</option>
-												  <option value="location">location</option>
+												  <option value="link">Link</option>
+												  <option value="location">Location</option>
 											
 												</select>
 												
@@ -226,6 +247,10 @@
 											<div class="12u">
 												
 												  <label for="resAddress">Resource Address</label>
+													<ul>
+													  <li>Link Example: https://www.google.com/</li>
+													  <li>Location Example: 105 Garfield Avenue, Eau Claire, WI 54701</li>
+													</ul>
 												  <input id="resAddress" name="resAddress" type="text"/>
 												
 											</div>
